@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 
-const token = "22786f61fb5f4fdc63f72365574d19808794c5a5196a140749e59b3d268fc04eaaf02aac71aa597ec85170a9c6c2d5b241578ff37fec3b8b90183363336c6724bf305a7bb6d4d78c08a4bfe5253e35f800c0754e5cfcfa44c6d1d4ce25d2bcfbc20908da26ff18e9dfdfc5978264c29f59642b8ffdf8b2831a7d843185c1df7b";
-const baseUrl = "http://localhost:1337"
+const token = "9156fdbf34c5c72ea74911b6a1c01136fe2f094ce2a73a05e400899f4790a3b6978c044daa4e8e947cadebfd529dc3a2cfa728fde817cae66ab7083b32961d299beb61a6df6efbd5bae9a8355d0afaa21dd05d34a256e8e6fd5e1007a2a585c7026bed8d68ae377e6fa17e3ea76078f422f3e8af79b27a0a1b39674431d24c40";
+const baseUrl = "https://complete.testingweblink.com";
 
 interface Post {
   id: number;
@@ -14,10 +14,12 @@ interface Post {
 }
 
 const Sidebar = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Post[]>([]);
-  const [archiveDates, setArchiveDates] = useState<{ display: string, urlFormat: string }[]>([]);
+  const [archiveDates, setArchiveDates] = useState<
+    { display: string; urlFormat: string }[]
+  >([]);
 
   // Debounce search query
   useEffect(() => {
@@ -34,7 +36,7 @@ const Sidebar = () => {
       setSearchResults([]);
       return;
     }
-    
+
     try {
       const encodedQuery = encodeURIComponent(query);
       const response = await fetch(
@@ -45,28 +47,30 @@ const Sidebar = () => {
           },
         }
       );
-      
+
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
 
       const data = await response.json();
-      
+
       if (data && data.data && Array.isArray(data.data)) {
-        setSearchResults(data.data.map((item: any) => ({
-          id: item.id,
-          documentId: item.documentId,
-          Title: item.Title,
-          Slug: item.Slug,
-          Content: item.Content,
-          createdAt: item.createdAt,
-          date: item.date
-        })));
+        setSearchResults(
+          data.data.map((item: any) => ({
+            id: item.id,
+            documentId: item.documentId,
+            Title: item.Title,
+            Slug: item.Slug,
+            Content: item.Content,
+            createdAt: item.createdAt,
+            date: item.date,
+          }))
+        );
       } else {
         setSearchResults([]);
       }
     } catch (error) {
-      console.error('Error searching posts:', error);
+      console.error("Error searching posts:", error);
       setSearchResults([]);
     }
   }, []);
@@ -88,23 +92,25 @@ const Sidebar = () => {
             },
           }
         );
-        
-        if (!response.ok) throw new Error('Failed to fetch posts');
-        
+
+        if (!response.ok) throw new Error("Failed to fetch posts");
+
         const data = await response.json();
         const dates = data.data.map((post: Post) => {
           const date = new Date(post.createdAt);
           return {
-            display: `${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`,
-            urlFormat: `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}`
+            display: `${date.toLocaleString("default", { month: "long" })} ${date.getFullYear()}`,
+            urlFormat: `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, "0")}`,
           };
         });
-        
+
         // Get unique dates
-        const uniqueDates = Array.from(new Set(dates.map(JSON.stringify))).map((str) => JSON.parse(str as string));
+        const uniqueDates = Array.from(new Set(dates.map(JSON.stringify))).map(
+          (str) => JSON.parse(str as string)
+        );
         setArchiveDates(uniqueDates);
       } catch (error) {
-        console.error('Error fetching archive dates:', error);
+        console.error("Error fetching archive dates:", error);
       }
     };
 
@@ -125,23 +131,25 @@ const Sidebar = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full border border-gray-300 p-2 text-sm md:text-base"
         />
-        <button 
+        <button
           onClick={handleSearch}
           className="text-white bg-primary py-1 px-4 md:px-6 text-sm md:text-base whitespace-nowrap"
         >
           Search
         </button>
       </div>
-      
+
       {/* Search Results */}
       <div className="mb-8 border-l-2 pl-4">
         {searchResults.length > 0 ? (
           <>
-            <h2 className="text-2xl font-bold mb-4 text-primary">Search Results</h2>
+            <h2 className="text-2xl font-bold mb-4 text-primary">
+              Search Results
+            </h2>
             <ul className="space-y-4">
-             {searchResults.slice(0, 3).map((post) => (
+              {searchResults.slice(0, 3).map((post) => (
                 <li key={post.id}>
-                  <a 
+                  <a
                     href={`/blog/${post.Slug}`}
                     className="hover:text-blue-600"
                   >
@@ -151,8 +159,8 @@ const Sidebar = () => {
               ))}
             </ul>
           </>
-        ) : searchQuery && (
-          <p className="text-gray-500">No results found.</p>
+        ) : (
+          searchQuery && <p className="text-gray-500">No results found.</p>
         )}
       </div>
 
@@ -161,7 +169,7 @@ const Sidebar = () => {
         <ul className="space-y-2 text-[#323232]">
           {archiveDates.map((date, index) => (
             <li key={index}>
-              <a 
+              <a
                 href={`/archive/${date.urlFormat}`}
                 className="hover:text-blue-600 block"
                 rel="prefetch"
@@ -174,6 +182,6 @@ const Sidebar = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Sidebar;

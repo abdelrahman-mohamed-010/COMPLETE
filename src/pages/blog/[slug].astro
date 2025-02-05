@@ -1,10 +1,11 @@
 ---
+export const prerender = true;
 import Sidebar from "../../components/Sidebar";
 import PrimaryLayout from "../../layouts/PrimaryLayout.astro";
 
 export async function getStaticPaths() {
-  const baseUrl = import.meta.env.STRAPI_URL;
-  const token = import.meta.env.ASTRO_APP_API_TOKEN;
+  const baseUrl = import.meta.env.STRAPI_URL_TWO;
+  const token = import.meta.env.ASTRO_APP_API_TOKEN_TWO;
 
   const response = await fetch(`${baseUrl}/api/posts?populate=*`, {
     headers: {
@@ -57,7 +58,7 @@ const nextSlug = null;
         </div>
         
         <!-- Navigation Buttons -->
-        <div class="flex flex-col sm:flex-row justify-between gap-4 mt-8 md:mt-12 w-full">
+         <div class="flex flex-col sm:flex-row justify-between gap-4 mt-8 md:mt-12 w-full">
           {prevSlug && (
             <a 
               href={`/blog/${prevSlug}`}
@@ -102,7 +103,7 @@ const nextSlug = null;
               </svg>
             </a>
           )}
-        </div>
+        </div> 
       </div>
       
       <Sidebar client:only="react" />

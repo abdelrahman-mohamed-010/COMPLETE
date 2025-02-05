@@ -2,8 +2,8 @@
 import CallToAction from '../components/CallToAction.astro';
 import PrimaryLayout from '../layouts/PrimaryLayout.astro';
 
-const baseUrl = import.meta.env.STRAPI_URL;
-const token = import.meta.env.ASTRO_APP_API_TOKEN;
+const baseUrl = import.meta.env.STRAPI_URL_TWO;
+const token = import.meta.env.ASTRO_APP_API_TOKEN_TWO;
 
 const response = await fetch(`${baseUrl}/api/pages?populate[media][populate]=*`, {
   headers: {
@@ -12,7 +12,7 @@ const response = await fetch(`${baseUrl}/api/pages?populate[media][populate]=*`,
 });
 
 const { data } = await response.json();
-const media = data[0]?.media?.find((item: any) => item.__component === "media.media");
+const media = data?.[0]?.media?.find((item: any) => item.__component === "media.media") || {};
 
 // Transform video URL if it exists
 const videoUrl = media?.VideoLink;

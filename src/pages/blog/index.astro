@@ -2,8 +2,8 @@
 import Sidebar from "../../components/Sidebar.tsx";
 import PrimaryLayout from "../../layouts/PrimaryLayout.astro";
 
-const baseUrl = import.meta.env.STRAPI_URL;
-const token = import.meta.env.ASTRO_APP_API_TOKEN;
+const baseUrl = import.meta.env.STRAPI_URL_TWO;
+const token = import.meta.env.ASTRO_APP_API_TOKEN_TWO;
 
 const response = await fetch(`${baseUrl}/api/posts?populate=*`, {
   headers: {

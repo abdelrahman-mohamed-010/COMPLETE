@@ -1,11 +1,13 @@
 ---
+export const prerender = true;
+
 import CallToAction from "../../components/CallToAction.astro";
 import Sidebar from "../../components/Sidebar";
 import PrimaryLayout from "../../layouts/PrimaryLayout.astro";
 
 export async function getStaticPaths() {
-  const baseUrl = import.meta.env.STRAPI_URL;
-  const token = import.meta.env.ASTRO_APP_API_TOKEN;
+  const baseUrl = import.meta.env.STRAPI_URL_TWO;
+  const token = import.meta.env.ASTRO_APP_API_TOKEN_TWO;
 
   const response = await fetch(`${baseUrl}/api/approach-pages?populate=*`, {
     headers: {
@@ -14,7 +16,7 @@ export async function getStaticPaths() {
   });
 
   const { data } = await response.json();
-
+  
   if (!data || !Array.isArray(data)) {
     throw new Error('Invalid data format received from API');
   }

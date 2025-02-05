@@ -1,4 +1,5 @@
 ---
+export const prerender = true;
 import Layout from '../../../layouts/Layout.astro';
 
 interface BlogPost {
@@ -19,8 +20,8 @@ interface PostPath {
 }
 
 export async function getStaticPaths() {
-  const baseUrl = import.meta.env.STRAPI_URL;
-  const token = import.meta.env.ASTRO_APP_API_TOKEN;
+  const baseUrl = import.meta.env.STRAPI_URL_TWO;
+  const token = import.meta.env.ASTRO_APP_API_TOKEN_TWO;
 
   // Fetch all posts to get their dates
   const response = await fetch(`${baseUrl}/api/posts?sort=createdAt:DESC&populate=*`, {
@@ -57,10 +58,10 @@ export async function getStaticPaths() {
 }
 
 const { year, month } = Astro.params;
-const baseUrl = import.meta.env.STRAPI_URL;
-const token = import.meta.env.ASTRO_APP_API_TOKEN;
+// Modify baseUrl and token to use fallbacks if the primary values are undefined:
+const baseUrl =  import.meta.env.STRAPI_URL_TWO;
+const token = import.meta.env.ASTRO_APP_API_TOKEN_TWO;
 
-// Filter posts for current year/month
 const startDate = new Date(`${year}-${month}-01`);
 const endDate = new Date(startDate);
 endDate.setMonth(startDate.getMonth() + 1);
