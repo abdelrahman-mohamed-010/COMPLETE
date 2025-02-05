@@ -1,0 +1,33 @@
+---
+import Title from "./ui/Title.astro";
+
+const { goalsData } = Astro.props;
+const baseUrl = import.meta.env.STRAPI_URL_TWO;
+---
+
+<section class="max-w-[1860px] mx-auto px-4 xl:px-8 overflow-hidden pb-16 mt-16">
+  <div class="w-full flex flex-col items-center justify-center gap-1">
+    <Title text={goalsData.firstTitle} className="mb-3 text-nowrap" />
+    <h1 class="font-bold lg:text-4xl text-2xl">{goalsData.mainTitle}</h1>
+  </div>
+
+  <div class="flex flex-col lg:flex-row gap-4 lg:gap-5 mt-16 text-[#434343]">
+    <div class="text-center border-2 px-8 rounded-tr-[50px] rounded-bl-[50px] rounded-tl-[180px] max-lg:rounded-tl-[50px] max-lg:rounded-br-[50px] pb-6">
+      <img src={`${baseUrl}${goalsData.img1.url}`} alt="Male & Female Chiropractors" class="mx-auto pt-9" />
+      <h2 class="font-bold text-nowrap xl:text-3xl text-xl mt-6">{goalsData.title1}</h2>
+      <p class="text-xl mt-9 max-lg:mt-6">{goalsData.desc1}</p>
+    </div>
+
+    <div class="text-center px-5 h-fit pb-14 max-lg:pb-5 rounded-t-[90px] max-lg:rounded-[50px] border-[3px] border-primary">
+      <img src={`${baseUrl}${goalsData.img2.url}`} alt="On-site Massage Therapist" class="mx-auto pt-9" />
+      <h2 class="font-bold text-nowrap xl:text-3xl text-xl mt-6">{goalsData.title2}</h2>
+      <p class="max-lg:mt-6 text-xl mt-9 max-sm:pb-2">{goalsData.desc2}</p>
+    </div>
+
+    <div class="text-center px-5 border-2 rounded-tl-[50px] rounded-bl-[50px] rounded-tr-[180px] max-lg:rounded-[50px]">
+      <img src={`${baseUrl}${goalsData.img3.url}`} alt="We can reduce pain in just one visit" class="mx-auto pt-9" />
+      <h2 class="font-bold xl:text-3xl text-xl mt-6">{goalsData.title3}</h2>
+      <p class="text-xl mt-9 max-lg:mt-6 pb-6 max-lg:pb-7">{goalsData.desc3}</p>
+    </div>
+  </div>
+</section>

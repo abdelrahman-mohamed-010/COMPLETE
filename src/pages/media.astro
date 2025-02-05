@@ -1,0 +1,84 @@
+---
+import CallToAction from '../components/CallToAction.astro';
+import PrimaryLayout from '../layouts/PrimaryLayout.astro';
+
+const baseUrl = import.meta.env.STRAPI_URL;
+const token = import.meta.env.ASTRO_APP_API_TOKEN;
+
+const response = await fetch(`${baseUrl}/api/pages?populate[media][populate]=*`, {
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+});
+
+const { data } = await response.json();
+const media = data[0]?.media?.find((item: any) => item.__component === "media.media");
+
+// Transform video URL if it exists
+const videoUrl = media?.VideoLink;
+const transformedVideoUrl = videoUrl ? videoUrl.replace('youtu.be/', 'www.youtube.com/embed/') : '';
+---
+<PrimaryLayout>
+  <main>
+    <CallToAction />
+    <div class="max-w-[1260px] mx-auto my-20 xl:px-8 px-4 flex flex-col justify-center items-center">
+      {!media && <p class="text-center text-gray-500">No media content available.</p>}
+      
+      {media && (
+        <>
+          {media.title && <h2>{media.title}</h2>}
+          {media.img &&
+            <img src={`${baseUrl}${media.img.url}`} alt={media.img.alternativeText ?? ''} />
+          }
+          {videoUrl && 
+            <div class="video-container w-full mt-8">
+              <iframe 
+                width="100%" 
+                height="100%" 
+                src={transformedVideoUrl}
+                title="Video Content"
+                frameborder="0" 
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen
+                onerror="this.style.display='none'; this.parentElement.innerHTML += '<p class=\'text-center text-gray-500\'>Video unavailable. Please try again later.</p>'"
+              ></iframe>
+            </div>
+          }
+          {media.Content?.map((block: any) => {
+            if (block.type === "paragraph") {
+              return (
+                <p class="whitespace-pre-wrap">
+                  {block.children.map((child: any) =>
+                    child.bold
+                      ? <strong>{child.text}</strong>
+                      : child.text
+                  )}
+                </p>
+              );
+            }
+          })}
+        </>
+      )}
+    </div>
+  </main>
+</PrimaryLayout>
+
+<style>
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    background: #000;
+    margin: 20px 0;
+  }
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>

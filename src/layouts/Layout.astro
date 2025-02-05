@@ -1,0 +1,29 @@
+---
+import Footer from "../components/Footer.astro";
+import Nav from "../components/Nav.jsx";
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>completechirocare</title>
+	</head>
+	<body>
+  <Nav client:load />
+		<slot />
+    <Footer />
+	</body>
+</html>
+
+<style>
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+	}
+</style>

@@ -1,0 +1,59 @@
+---
+import CallToAction from "../../components/CallToAction.astro";
+import Sidebar from "../../components/Sidebar";
+import PrimaryLayout from "../../layouts/PrimaryLayout.astro";
+
+export async function getStaticPaths() {
+  const baseUrl = import.meta.env.STRAPI_URL;
+  const token = import.meta.env.ASTRO_APP_API_TOKEN;
+
+  const response = await fetch(`${baseUrl}/api/approach-pages?populate=*`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+
+  const { data } = await response.json();
+
+  if (!data || !Array.isArray(data)) {
+    throw new Error('Invalid data format received from API');
+  }
+
+  return data.map((page: any) => ({
+    params: { slug: page.Slug },
+    props: { 
+      title: page.Title,
+      content: page.Content,
+      // Fix image path handling
+      image: page.FeaturedImage?.url ? `${baseUrl}${page.FeaturedImage.url}` : '/default-approach.jpg',
+      date: page.createdAt || new Date().toISOString()
+    }
+  }));
+}
+
+const { title, content, image, date } = Astro.props;
+const formattedDate = new Date(date).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
+---
+
+<PrimaryLayout>
+  <CallToAction />
+  <main class="max-w-[1360px] mx-auto xl:px-8 px-4 py-12">
+    <h1 class="text-5xl capitalize font-bold mb-20">{title}</h1>
+    <div class="flex flex-col md:flex-row gap-8">
+      <div class="md:w-3/4">
+        <img src={image} alt={title} class="w-full mb-8" />
+        <div class="prose prose-sm md:prose max-w-none">
+          {content?.filter((block: any) => block.children[0].text !== "").map((block: any) => (
+            <p class="mb-4">{block.children[0].text}</p>
+          ))}
+        </div>
+      </div>
+      
+      <Sidebar client:only="react" />
+    </div>
+  </main>
+</PrimaryLayout>

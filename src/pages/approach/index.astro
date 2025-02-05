@@ -1,0 +1,273 @@
+---
+import CallToAction from "../../components/CallToAction.astro";
+import PrimaryLayout from "../../layouts/PrimaryLayout.astro";
+import { processRichText } from "../../utils/textFormatters";
+
+const baseUrl = import.meta.env.STRAPI_URL_TWO;
+const token = import.meta.env.ASTRO_APP_API_TOKEN_TWO;
+
+const response = await fetch(`${baseUrl}/api/pages?populate[approach][populate]=*`, {
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+});
+
+const { data } = await response.json();
+const approach = data[0].approach.find((item: any) => item.__component === "approach.approach");
+const whatToExpect = data[0].approach.find((item: any) => item.__component === "what-to-expect.what-to-expect");
+
+// Extract video ID from URL (supports both full URLs and short URLs)
+const getYoutubeID = (url: string) => {
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return (match && match[2].length === 11) ? match[2] : null;
+};
+
+const videoId = getYoutubeID(approach.videoLink);
+---
+
+<PrimaryLayout>
+  <main class="">
+    <CallToAction />
+    <div class="max-w-[1860px] mx-auto xl:px-8 px-4 capitalize">
+      <div class="max-w-[1860px] mx-auto xl:px-8 px-4 lg:w-full sm:w-full flex flex-col justify-center items-center">
+        <h1 class="text-5xl max-sm:text-3xl font-bold text-center mb-6 max-sm:mb-4 pt-12">
+          {approach.title}
+        </h1>
+        <h1 class="text-center md:text-3xl max-sm:text-xl font-normal text-gray-900">
+          {approach.desc}
+        </h1>
+      </div>
+
+      <!-- Video Section -->
+      <div class="video-container">
+        <iframe
+          src={`https://www.youtube.com/embed/${videoId}`}
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+
+      <div class="flex max-lg:flex-col gap-12 w-[85%] max-md:w-[95%] mx-auto mt-20 text-sm text-[#323232]">
+        <div class="flex flex-col justify-center items-center max-md:w-full">
+          <div class="flex flex-col justify-center items-center mb-12">
+            <h1 class="text-3xl max-sm:text-2xl font-bold mb-1">{approach.title1}</h1>
+            <p class="text-gray-900 font-normal max-sm:px-4 text-start max-w-3xl mx-auto leading-relaxed max-sm:text-sm">
+              {approach.desc1}
+            </p>
+            <div class="flex justify-center items-center mt-7">
+              <div class="w-40 h-px bg-pink-500"></div>
+              <div class="w-9 h-9 transform rotate-45 border-b border-r border-pink-500 mx-2"></div>
+              <div class="w-40 h-px bg-pink-500"></div>
+            </div>
+          </div>
+
+          <div class="flex flex-col justify-center items-center mb-20">
+            <h1 class="text-3xl max-sm:text-2xl font-bold mb-1">{approach.title3}</h1>
+            <p class="text-gray-900 font-normal mb-6 text-start max-w-3xl mx-auto leading-relaxed max-sm:text-sm">
+              {approach.FirstDesc3}
+            </p>
+            <p class="text-gray-900 font-normal text-start max-w-3xl mx-auto leading-relaxed max-sm:text-sm">
+              {approach.SecondDesc3}
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-col justify-center items-center border-l max-md:border-l-0 ps-8 max-md:ps-0 h-fit">
+          <div class="flex flex-col justify-center items-center mb-12">
+            <h1 class="text-3xl max-sm:text-2xl font-bold mb-1">{approach.title4}</h1>
+            <p class="text-gray-900 mb-6 font-normal max-sm:px-4 text-start max-w-3xl mx-auto leading-relaxed max-sm:text-sm">
+              {approach.firstDesc4}
+            </p>
+            <p class="text-gray-900 font-normal text-start max-sm:px-4 max-w-3xl mx-auto leading-relaxed max-sm:text-sm">
+              {approach.SecondDesc4}
+            </p>
+            <div class="flex justify-center items-center mt-7">
+              <div class="w-40 h-px bg-pink-500"></div>
+              <div class="w-9 h-9 transform rotate-45 border-b border-r border-pink-500 mx-2"></div>
+              <div class="w-40 h-px bg-pink-500"></div>
+            </div>
+          </div>
+
+          <div class="flex flex-col justify-center items-center">
+            <h1 class="text-3xl max-sm:text-2xl font-bold mb-1">{approach.title2}</h1>
+            <p class="text-gray-900 font-normal text-start max-w-3xl mx-auto leading-relaxed max-sm:text-sm">
+              {approach.desc2}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col items-center justify-center space-y-8 mt-8 pb-20">
+        <a href="https://clinic27intake.bookings.pracsuite.com/guest?l=1949&_gl=1*16y1as*_ga*MTUzNzgzNjczOS4xNzM0Njk4NTMw*_ga_J0YJHQLKE6*MTczNzQ2MTIxNy4xOC4wLjE3Mzc0NjEyMTcuNjAuMC4w" 
+           target="_blank" 
+           class="meet-our-team-btn">{approach.CTA}</a>
+      </div>
+
+      <div class="w-full flex justify-center">
+        <img src={`${baseUrl}${approach.img.url}`} alt="" class="w-[90%] max-md:hidden my-12">
+        <div class="md:hidden py-10 relative w-full flex justify-center items-center mt-32">
+          <span class="absolute font-semibold text-[#FFECEC] text-base bg-[#742D96] w-32 h-32 z-20 -top-20 flex justify-center items-center text-center rounded-full">Goal <br> End Of <br> Treatment</span>
+          <div class="flex flex-col items-center relative w-full">
+            <img src="/stick.png" class="w-1 h-[500px] absolute" alt="">
+            <img src="/mobilegraph.png" class="z-20 w-20 absolute top-1/2 -translate-y-1/2" alt="">
+            
+            <!-- Text sections with responsive positioning -->
+            <div class="grid grid-cols-2 w-full h-[600px] relative">
+              <!-- Left side texts -->
+              <div class="flex flex-col justify-between pr-16 relative">
+                <div class="text-[9px] w-36 mt-10">
+                  <h1 class="text-lg font-semibold mb-3">Unwinding</h1>
+                  <span>Some patients may find they re-experience some mild symptoms related to previous injuries or physical conditions. This is a temporary state and part of unlocking and erasing the traumatic events that your body experienced.</span>
+                </div>
+                
+                <div class="text-[9px] w-32 translate-y-16">
+                  <h1 class="text-lg font-semibold mb-3">Understanding Your Problem</h1>
+                  <span>You have an understanding of what has happened to your body and why your body has responded in the manner it has.</span>
+                </div>
+              </div>
+              <div class="flex flex-col justify-around items-end relative">
+                <div class="text-[9px] w-40 pl-12 translate-y-7 pr-2 mt-20">
+                  <h1 class="text-lg font-semibold text-start mb-3">Treatment Process</h1>
+                  <span>Your chiropractor will look at your spine to see the issues and injuries that your body is unable to correct on its own.</span>
+                </div>
+              </div>
+              <!-- Right side texts -->
+              <div class="flex flex-col justify-around items-start relative">
+                <div class="text-[9px] w-36 mt-9 pt-5 pr-2">
+                  <h1 class="text-lg font-semibold mb-3">Diagnosis</h1>
+                  <span>Chiropractor narrows down precise points in body where mechanical stress is taking place</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-[#f3f3f3] capitalize w-full text-center flex flex-col items-center justify-center py-12"> 
+      <h1 class="text-5xl max-sm:text-2xl font-bold text-center mb-2 pt-12">
+        {whatToExpect.Title} <span class="text-primary">Expect</span>
+      </h1>
+      <p class="text-gray-800 text-sm mb-8 mt-4 max-sm:text-xs max-sm:px-4 w-1/2 max-md:w-[90%] text-center">
+        {whatToExpect.Desc}
+      </p>
+      <div class="flex max-md:flex-col gap-12 max-md:gap-4 w-[85%] max-md:w-[95%] mx-auto mt-20 max-md:mt-8 text-sm text-[#323232]">
+        <div class="flex flex-col justify-center items-center max-md:w-full">
+          <div class="flex flex-col justify-center items-center mb-12">
+            <h1 class="text-3xl max-sm:text-2xl font-bold mb-3">{whatToExpect.title1}</h1>
+            <div class="text-gray-900 font-normal text-start max-w-3xl mx-auto leading-relaxed max-sm:text-sm">
+              <Fragment set:html={processRichText(whatToExpect.desc1)} />
+            </div>
+          </div>
+
+          <div class="flex flex-col justify-center items-center mb-64">
+            <h1 class="text-3xl max-sm:text-2xl font-bold mb-3">{whatToExpect.title2}</h1>
+            <div class="text-gray-900 font-normal text-start max-w-3xl mx-auto leading-relaxed max-sm:text-sm">
+              <Fragment set:html={processRichText(whatToExpect.desc2)} />
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col justify-center max-md:-translate-y-32 items-center ps-8 max-md:ps-0 h-fit">
+          <div class="flex flex-col justify-center items-center mb-32">
+            <h1 class="text-3xl max-sm:text-2xl font-bold mb-3">{whatToExpect.title3}</h1>
+            <div class="text-gray-900 font-normal text-start max-w-3xl mx-auto leading-relaxed max-sm:text-sm">
+              <Fragment set:html={processRichText(whatToExpect.desc3)} />
+            </div>
+          </div>
+
+          <div class="flex flex-col justify-center items-center -mt-20">
+            <h1 class="text-3xl max-sm:text-2xl font-bold mb-3 text-primary">{whatToExpect.title4}</h1>
+            <div class="text-gray-900 font-normal text-start max-w-3xl mx-auto leading-relaxed max-sm:text-sm">
+              <Fragment set:html={processRichText(whatToExpect.desc4)} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const videoWrapper = document.querySelector('.video-wrapper');
+      const playButton = document.querySelector('.play-button');
+
+      if (videoWrapper && playButton) {
+        playButton.addEventListener('click', () => {
+          const videoId = (videoWrapper as HTMLElement).dataset.videoId;
+          const iframe = document.createElement('iframe');
+          iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1`);
+          iframe.setAttribute('frameborder', '0');
+          iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+          iframe.setAttribute('allowfullscreen', '');
+          
+          videoWrapper.innerHTML = '';
+          videoWrapper.appendChild(iframe);
+        });
+      }
+    </script>
+  </main>
+</PrimaryLayout>
+
+<style>
+  .meet-our-team-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 25px 50px;
+    font-size: 16px;
+    font-weight: bold;
+    width: 240px;
+    height: 24px;
+    background: #ed2278;
+    border-radius: 11000px 6000px 6000px 0px;
+    color: white;
+    @media (max-width: 640px) {
+      padding: 10px 30px;
+      width: 200px;
+      height: 40px;
+      font-size: 14px;
+    }
+  }
+
+  .video-container {
+    position: relative;
+    padding-bottom: 36.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    max-width: 900px;
+    margin: 2rem auto;
+  }
+
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+  }
+
+  @media (max-width: 768px) {
+    .video-container {
+      margin: 1rem auto;
+      width: 95%;
+    }
+  }
+
+  /* Add styles for rich text content */
+  :global(li) {
+    list-style: none;
+    margin-bottom: 0.5rem;
+    padding-left: 1rem;
+    position: relative;
+  }
+  
+  :global(li:before) {
+    content: "–";
+    position: absolute;
+    left: 0;
+  }
+</style>

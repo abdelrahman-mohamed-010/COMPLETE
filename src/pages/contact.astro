@@ -1,0 +1,153 @@
+---
+import CallToAction from '../components/CallToAction.astro';
+import PrimaryLayout from '../layouts/PrimaryLayout.astro';
+
+const baseUrl = import.meta.env.STRAPI_URL_TWO;
+const token = import.meta.env.ASTRO_APP_API_TOKEN_TWO;
+
+const response = await fetch(`${baseUrl}/api/pages?populate[Contact][populate]=*`, {
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+});
+
+const { data } = await response.json();
+const ContactData = data[0].Contact.find((component: { __component: string }) => component.__component === "contact-page.contact-page");
+
+---
+<script>
+    const form = document.querySelector('form');
+    const submitButton = form?.querySelector('button[type="submit"]') as HTMLButtonElement;
+    const successMessage = document.getElementById('successMessage');
+    const errorMessage = document.getElementById('errorMessage');
+    const errorDetails = document.getElementById('errorDetails');
+
+    form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!submitButton) return;
+
+        const originalText = submitButton.getAttribute('data-original-text') || 'Submit';
+        submitButton.disabled = true;
+        submitButton.innerHTML = 'Sending...';
+        
+        const formData = new FormData(form);
+        const data = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            subject: formData.get('subject'),
+            message: formData.get('message')
+        };
+
+        try {
+            const response = await fetch(`https://complete.testingweblink.com/api/contact-forms`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer 9156fdbf34c5c72ea74911b6a1c01136fe2f094ce2a73a05e400899f4790a3b6978c044daa4e8e947cadebfd529dc3a2cfa728fde817cae66ab7083b32961d299beb61a6df6efbd5bae9a8355d0afaa21dd05d34a256e8e6fd5e1007a2a585c7026bed8d68ae377e6fa17e3ea76078f422f3e8af79b27a0a1b39674431d24c40`
+                },
+                body: JSON.stringify({ data })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            if (successMessage) successMessage.style.display = 'block';
+            if (errorMessage) errorMessage.style.display = 'none';
+            form.reset();
+        } catch (error) {
+            if (errorMessage) errorMessage.style.display = 'block';
+            if (successMessage) successMessage.style.display = 'none';
+            if (errorDetails) {
+                errorDetails.textContent = error instanceof Error 
+                    ? `Error: ${error.message}` 
+                    : 'An unknown error occurred';
+            }
+            console.error('Error submitting form:', error);
+        } finally {
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalText; // Use the stored original text
+        }
+    });
+</script>
+
+<PrimaryLayout currentPath="contact">
+    <main class="pb-20">
+        <CallToAction />
+        <div>
+            <h1 class="my-12 pb-12 w-full text-center text-7xl font-semibold mb-1 max-md:text-4xl">{ContactData.PageTitle}</h1>
+        </div>
+        <div class="max-w-[1660px] mx-auto xl:px-8 px-4">
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h2 class="text-4xl max-md:text-2xl text-primary font-bold mb-4">{ContactData.mapTitle}</h2>
+                    <p class="mb-2">{ContactData.adress}</p>
+                    <p class="mb-2">{ContactData.phone}</p>
+                    <p class="mb-2">{ContactData.email}</p>
+                    
+                    <div class="mt-8 h-[400px]">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3308.2685615454!2d151.28491731521252!3d-33.75163098068727!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b12aa60f8418d75%3A0x13017d67ef641565!2s1%2F32%20Fisher%20Rd%2C%20Dee%20Why%20NSW%202099%2C%20Australia!5e0!3m2!1sen!2sus!4v1673458234181!5m2!1sen!2sus"
+                            width="100%"
+                            height="100%"
+                            style="border:0;"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+                
+                <div>
+                    <p class="mb-4">You can write your query below. We will reply within 48 hours.</p>
+                    <form class="space-y-4">
+                        <div id="successMessage" class="hidden bg-green-100 text-green-700 p-3 rounded mb-4">
+                            Message sent successfully!
+                        </div>
+                        <div id="errorMessage" class="hidden bg-red-100 text-red-700 p-3 rounded mb-4">
+                            Failed to send message. Please try again.
+                            <div id="errorDetails" class="text-red-500 text-sm"></div>
+                        </div>
+                        <div>
+                            <label for="name" class="block mb-1">Your Name*</label>
+                            <input type="text" id="name" name="name" required class="w-full p-2 border rounded">
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block mb-1">Your Email*</label>
+                            <input type="email" id="email" name="email" required class="w-full p-2 border rounded">
+                        </div>
+                        
+                        <div>
+                            <label for="subject" class="block mb-1">Subject</label>
+                            <input type="text" id="subject" name="subject" class="w-full p-2 border rounded">
+                        </div>
+                        
+                        <div>
+                            <label for="message" class="block mb-1">Your Message</label>
+                            <textarea id="message" name="message" rows="5" class="w-full p-2 border rounded"></textarea>
+                        </div>
+                        
+                        <button 
+                            type="submit" 
+                            class="bg-primary text-white px-6 py-2 rounded"
+                            data-original-text={ContactData.Submitbtn}
+                        >
+                            {ContactData.Submitbtn}
+                        </button>
+                    </form>
+
+                    <div class="mt-8">
+                        <img 
+                            src={`${baseUrl}${ContactData.img1.url}`}
+                            alt={ContactData.img1.alternativeText || "Consultation"}
+                            class="w-full rounded-lg"
+                            width={ContactData.img1.width}
+                            height={ContactData.img1.height}
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</PrimaryLayout>

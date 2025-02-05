@@ -1,0 +1,113 @@
+---
+import CallToAction from '../components/CallToAction.astro';
+import SliderAbout from '../components/ui/SliderAbout';
+import PrimaryLayout from '../layouts/PrimaryLayout.astro';
+
+const baseUrl = import.meta.env.STRAPI_URL_TWO;
+const token = import.meta.env.ASTRO_APP_API_TOKEN_TWO;
+
+const response = await fetch(`${baseUrl}/api/pages?populate[About][populate]=*`, {
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+});
+
+const { data } = await response.json();
+const visibleData = data[0].About.find((component: { __component: string }) => component.__component === "visible-results-about.visible-results-about");
+
+// Remove these lines
+const videoUrl = visibleData.VideoLink;
+const transformedVideoUrl = videoUrl.replace('youtu.be/', 'www.youtube.com/embed/');
+
+const sliderImages = visibleData.Slider.map((image: any) => ({
+  url: `${baseUrl}${image.url}`,
+  alt: image.alternativeText || '',
+  width: image.width,
+  height: image.height
+}));
+---
+
+<PrimaryLayout>
+    <main>
+        <div>
+            <CallToAction />
+            <div class="max-w-[1860px] mx-auto xl:px-8 px-4 lg:w-full sm:w-full flex flex-col justify-center items-center">
+                <h1 class="text-5xl max-sm:text-2xl font-bold text-center max-sm:mb-2 pt-12">{visibleData.Title}</h1>
+                <p class="text-[#5d5d5d] text-sm mb-8 mt-4 max-sm:text-xs max-sm:px-4 max-sm:text-center">We treat neck and back pain, poor posture, sciatica, headaches, and newborn and child health issues.</p>
+
+                <div class="w-full max-sm:px-2">
+                    <SliderAbout client:load images={sliderImages} />
+                </div>
+
+                <h1 class="text-center md:text-4xl max-sm:text-xl font-bold text-gray-900 max-sm:mt-4">
+                    {visibleData.VideoTitle}
+                </h1>
+                <p class="text-center text-gray-900 max-sm:text-xs max-sm:px-4 mt-4">
+                    {visibleData.VideoDesc}
+                </p>
+                 <div class="space-y-8 max-sm:space-y-4 w-1/2 max-md:w-full mt-12 max-sm:mt-6">
+                 <div class="video-container -translate-y-3">
+                        <iframe 
+                            width="100%" 
+                            height="100%" 
+                            src=`${transformedVideoUrl}` 
+                            title="ABC Method Explanation Video"
+                            frameborder="0" 
+                            loading="lazy"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen
+                            onerror="this.style.display='none'; this.parentElement.innerHTML += '<p class=\'text-center text-gray-500\'>Video unavailable. Please try again later.</p>'"
+                        ></iframe>
+                    </div>
+                <div class="flex flex-col items-center justify-center space-y-8 mt-8">
+                    <a href="https://clinic27intake.bookings.pracsuite.com/guest?l=1949&_gl=1*16y1as*_ga*MTUzNzgzNjczOS4xNzM0Njk4NTMw*_ga_J0YJHQLKE6*MTczNzQ2MTIxNy4xOC4wLjE3Mzc0NjEyMTcuNjAuMC4w" 
+                       target="_blank" 
+                       class="meet-our-team-btn my-14 sm:my-8 sm:px-40 sm:py-10">
+                        {visibleData.CTA}
+                    </a>
+                </div> 
+            </div>
+                  
+            </div>
+        </div>
+    </main>
+</PrimaryLayout>
+
+<style>
+    .meet-our-team-btn {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 15px 50px;
+        font-size: 16px;
+        font-weight: bold;
+        width: 240px;
+        height: 54px;
+        background: #ED2278;
+        border-radius: 11000px 6000px 6000px 0px;
+        color: white;
+        @media (max-width: 640px) {
+            padding: 10px 30px;
+            width: 200px;
+            height: 40px;
+            font-size: 14px;
+        }
+    }
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        max-width: 100%;
+        background: #000;
+        margin: 20px 0;
+    }
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+</style>

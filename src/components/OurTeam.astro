@@ -1,0 +1,66 @@
+---
+import Title from "./ui/Title.astro";
+
+interface Props {
+  teamsData: any;
+}
+
+const { teamsData } = Astro.props;
+const baseUrl = import.meta.env.STRAPI_URL_TWO;
+---
+
+<section class="bg-[linear-gradient(rgba(240,0,29,0.22)_0%,rgba(217,217,217,0)_100%)]">
+    <div class="max-w-[1860px] mx-auto px-4 xl:px-8 overflow-hidden pb-16">
+      <div class="w-full flex flex-col items-center justify-center gap-1 mt-24">
+        <Title text={teamsData.FirstTitle} className="mb-3 text-nowrap" />  
+        <h1 class="font-bold lg:text-4xl text-2xl md:mb-24 mb-7">{teamsData.MainTitle}</h1>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 xl:gap-36 lg:gap-28 gap-6 md:mt-10 mx-auto">
+        <div class="w-full">
+          <img src={baseUrl + teamsData.memberOneImg.url} alt={teamsData.memberOneName} class="w-full h-auto lg:rounded-br-[120px] lg:rounded-tl-[120px] rounded-br-[50px] rounded-tl-[50px]" />
+          <h3 class="mt-4 font-bold text-center uppercase xl:text-2xl lg:text-xl text-sm max-lg:tracking-wider">{teamsData.memberOneName}</h3>
+          <p class="text-primary text-center font-medium text-xl max-lg:text-sm">{teamsData.memberOneJob}</p>
+        </div>
+        <div class="w-full md:-mt-16">
+          <img src={baseUrl + teamsData.memberTwoImg.url} alt={teamsData.memberTwoName} class="w-full h-auto lg:rounded-br-[120px] lg:rounded-tl-[120px] rounded-br-[50px] rounded-tl-[50px]" />
+          <h3 class="mt-4 font-bold text-center uppercase xl:text-2xl lg:text-xl text-sm max-lg:tracking-wider">{teamsData.memberTwoName}</h3>
+          <p class="text-primary text-center font-medium text-xl max-lg:text-sm">{teamsData.memberTwoJob}</p>
+        </div>
+        <div class="w-full">
+          <img src={baseUrl + teamsData.memberThreeImg.url} alt={teamsData.memberThreeName} class="w-full h-auto lg:rounded-br-[120px] lg:rounded-tl-[120px] rounded-br-[50px] rounded-tl-[50px]" />
+          <h3 class="mt-4 font-bold text-center uppercase xl:text-2xl lg:text-xl text-sm max-lg:tracking-wider">{teamsData.memberThreeName}</h3>
+          <p class="text-primary text-center font-medium text-xl max-lg:text-sm">{teamsData.memberThreeJob}</p>
+        </div>
+        <div class="w-full">
+          <img src={baseUrl + teamsData.memberFourImg.url} alt={teamsData.memberFourName} class="w-full h-auto lg:rounded-br-[120px] lg:rounded-tl-[120px] rounded-br-[50px] rounded-tl-[50px]" />
+          <h3 class="mt-4 font-bold uppercase text-center xl:text-2xl lg:text-xl text-sm max-lg:tracking-wider">{teamsData.memberFourName}</h3>
+          <p class="text-primary text-center font-medium text-xl max-lg:text-sm">{teamsData.memberFourJob}</p>
+        </div>
+        <div class="w-full md:-mt-16">
+          <img src={baseUrl + teamsData.memberFiveImg.url} alt={teamsData.memberFiveName} class="w-full h-auto lg:rounded-br-[120px] lg:rounded-tl-[120px] rounded-br-[50px] rounded-tl-[50px]" />
+          <h3 class="mt-4 font-bold uppercase text-center xl:text-2xl lg:text-xl text-sm max-lg:tracking-wider">{teamsData.memberFiveName}</h3>
+          <p class="text-primary text-center font-medium text-xl max-lg:text-sm">{teamsData.memberFiveJob}</p>
+        </div>
+        <div class="w-full">
+          <img src={baseUrl + teamsData.memberSixImg.url} alt={teamsData.memberSixName} class="w-full h-auto lg:rounded-br-[120px] lg:rounded-tl-[120px] rounded-br-[50px] rounded-tl-[50px]" />
+          <h3 class="mt-4 font-bold uppercase text-center xl:text-2xl lg:text-xl text-sm max-lg:tracking-wider">{teamsData.memberSixName}</h3>
+          <p class="text-primary text-center font-medium text-xl max-lg:text-sm">{teamsData.memberSixJob}</p>
+        </div>
+        <div class="col-span-2 md:col-span-3 flex justify-center lg:-mt-16 md:-mt-8">
+          <div class="w-full max-w-[calc(50%-12px)] md:max-w-[27%]">
+            <img src={baseUrl + teamsData.memberSevenImg.url} alt={teamsData.memberSevenName} class="w-full h-auto lg:rounded-br-[120px] lg:rounded-tl-[120px] rounded-br-[50px] rounded-tl-[50px]" />
+            <h3 class="mt-4 font-bold text-center xl:text-2xl lg:text-xl text-sm max-lg:tracking-wider uppercase">{teamsData.memberSevenName}</h3>
+            <p class="text-primary text-center font-medium text-xl max-lg:text-sm">{teamsData.memberSevenJob}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-full flex justify-center mt-10 max-lg:mt-6">
+        <a href="/team" class="bg-primary text-white text-nowrap px-6 py-2 flex justify-center items-center w-[214px] h-[60px] font-bold text-lg max-sm:text-base rounded-2xl rounded-bl-none">
+          <img src="/person.svg" alt="Logo" class="h-5 mt-0.5 mr-3 w-auto" />
+          View All Members
+        </a>
+      </div>
+    </div>
+</section>

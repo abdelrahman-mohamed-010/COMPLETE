@@ -1,0 +1,50 @@
+---
+import Title from "./ui/Title.astro";
+const { helpData } = Astro.props;
+const baseUrl = import.meta.env.STRAPI_URL_TWO;
+
+// HelpYou.astro
+---
+
+<div class="relative">
+  <section class="bg-darkpurple pb-14">
+    <div class="max-w-[1860px] mx-auto px-4 xl:px-8 overflow-hidden">
+      <div class="flex gap-9 max-xl:flex-col max-xl:gap-0">
+        <!-- Left Column -->
+        <div class="text-white w-1/2 max-xl:w-full max-xl:text-center max-xl:flex max-xl:flex-col max-xl:items-center">
+          <Title text="Expert Chiropractors" className="mt-14 mb-3 max-xl:self-center" />
+          <h1 class="font-bold xl:text-4xl text-2xl">{helpData.Title}</h1>
+          <p class="text-lg max-sm:text-base mt-5">
+            {helpData.Sentance1}
+          </p>
+          <p class="text-lg max-sm:text-base mt-5">
+            {helpData.Sentance2}
+          </p>
+          <div class="w-full flex justify-start mt-10 max-xl:mt-6 max-xl:justify-center">
+            <button 
+              class="bg-primary text-white text-nowrap px-6 py-2 flex justify-center items-center w-[254px] h-[60px] font-bold text-lg max-sm:text-base rounded-2xl rounded-bl-none"
+              onclick={`window.location.href='tel:${helpData.PhoneNumber}'`}
+            >
+              <img src="/phone.svg" alt="Logo" class="h-6 mt-0.5 mr-3 w-auto">
+              Call Us {helpData.PhoneNumber}
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="relative w-1/2 max-xl:w-full">
+          <img 
+            src={`${baseUrl}${helpData.img.url}`} 
+            alt="team" 
+            class="w-full h-full rounded-br-none mb-5 mt-7 rounded-tr-[200px] max-xl:rounded-tr-[130px] rounded-bl-[120px] max-xl:rounded-l-[60px] rounded-[100px] max-xl:h-auto max-xl:object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Label - Adjusted for responsive layout -->
+  <span class="absolute py-2 px-4 max-xl:py-3 bg-primary font-semibold text-lg text-white rounded-xl rounded-bl-none max-sm:text-xs w-auto h-auto bottom-8 max-xl:bottom-16 right-[calc(25%-80px)] max-xl:right-1/2 max-xl:translate-x-1/2 text-nowrap z-50">
+    Advanced Biostructural Correction Technique
+  </span>
+</div>

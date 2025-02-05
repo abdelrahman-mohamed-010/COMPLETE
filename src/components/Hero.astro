@@ -1,0 +1,62 @@
+---
+// Hero.astro
+const { heroData } = Astro.props;
+const baseUrl = import.meta.env.STRAPI_URL_TWO;
+---
+
+<section class="max-w-[1860px] mx-auto xl:px-8">
+  <div class="relative  xl:rounded-2xl xl:rounded-bl-[90px] max-xl:rounded-b-[90px] overflow-hidden">
+    <img src={`${baseUrl}${heroData.background.url}`} alt="heroSection" class="w-full h-full max-md:h-[450px] max-lg:h-[550px] object-cover">
+    <div class="absolute inset-0 lg:bg-[linear-gradient(270deg,_#FFFFFF00_1%,_#0A0808_100%)] bg-[linear-gradient(270deg,_rgba(10,8,8,0.7)_30%,_#0A0808_100%)]"></div>
+    <div class="absolute z-40  top-[260px] max-xl:top-[210px] -translate-y-1/2 lg:left-16 left-1/2 -translate-x-1/2 lg:translate-x-0 text-white">
+      <div class="text-center lg:text-left w-screen">
+        <span class="block text-4xl md:text-5xl lg:text-7xl font-semibold font-['Lora_Sans_Serif']">{heroData.Title.split(' ')[0]}</span>
+        <span class="block text-4xl md:text-5xl lg:text-7xl font-semibold text-primary font-['Lora_Sans_Serif']">{heroData.Title.split(' ')[1]}</span>
+        <span class="block text-xl mt-4 max-md:mt-9 font-medium max-xl:px-12">{heroData.desc}</span>
+        
+        <div class="flex flex-col md:flex-row justify-center items-center lg:justify-start md:gap-5">
+          <div class="mt-8 md:mt-14">
+            <button class="bg-primary text-white text-nowrap px-4 md:px-6 py-2 flex justify-center items-center w-[214px] h-[60px] font-medium text-lg rounded-2xl rounded-bl-none" onclick="window.location.href='https://clinic27intake.bookings.pracsuite.com/guest?l=1949&_gl=1*16y1as*_ga*MTUzNzgzNjczOS4xNzM0Njk4NTMw*_ga_J0YJHQLKE6*MTczNzQ2MTIxNy4xOC4wLjE3Mzc0NjEyMTcuNjAuMC4w'">
+              <img src="/calendar.svg" alt="Logo" class="h-4 md:h-5 mt-0.5 mr-3 w-auto">
+              {heroData.CTA1}
+            </button>
+          </div>
+          <div class="mt-4 md:mt-14  max-md:hidden">
+            <button class="bg-transparent border border-white text-white text-nowrap px-4 md:px-6 py-2 flex justify-center items-center w-[150px] md:w-[168px] h-[50px] md:h-[60px] font-medium text-base md:text-lg rounded-2xl rounded-bl-none" onclick="window.location.href='tel:+61299720040'">
+              <img src="/phone.svg" alt="Logo" class="h-4 md:h-5 mt-0.5 mr-3 w-auto">
+              {heroData.CTA2}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bg-primary max-xl:w-screen w-fit h-fit max-xl:bg-transparent py-7 px-24 pr-36 rounded-l-full rounded-tr-full absolute z-40 xl:top-[360px] xl:-translate-y-1/2 -bottom-1 md:bottom-6 lg:right-16 xl:right-12 max-xl:left-1/2 -translate-x-1/2 lg:translate-x-0">
+        <h2 class="text-white text-2xl font-bold mb-6 max-xl:hidden">
+          {heroData.Welcoming.split(' ').slice(0, 3).join(' ')} <br/>
+          {heroData.Welcoming.split(' ').slice(3).join(' ')}
+        </h2>
+        <div class="max-lg:ml-11 max-lg:mb-12 max-md:mb-6 max-sm:mb-2 max-xl:-ml-96 flex max-xl:justify-center items-center xl:gap-14 gap-5"> 
+        <div class="relative cursor-pointer" onclick="document.getElementById('videoModal').style.display='block'">
+        <img src="/backpainhero.png" alt="backpain" class="rounded-lg max-xl:hidden">
+        <div class="xl:absolute top-7 border border-white -right-7 bg-darkpurple md:w-16 md:h-16 w-12 h-12 rounded-full flex items-center justify-center">
+             <img src="play.svg" alt="play" class="md:w-7 md:h-7 h-5 w-5">
+        </div>
+       </div>
+        <span class="block max-xl:text-nowrap max-xl:text-xl max-sm:text-base text-white text-2xl font-bold">
+          {heroData.HowItWorks.split(' ').slice(0, 3).join(' ')} <br/>
+          {heroData.HowItWorks.split(' ').slice(3).join(' ')}
+        </span>
+        </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- Video Modal -->
+<div id="videoModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" style="display:none;">
+  <div class="relative w-full max-w-4xl mx-auto   md:mt-32 mt-12">
+    <button class="absolute top-0 right-0 m-4 text-white text-2xl" onclick="document.getElementById('videoModal').style.display='none'">&times;</button>
+    <iframe width="100%" height="500" src="https://www.youtube.com/embed/0CbxpVtEe1g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+

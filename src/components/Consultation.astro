@@ -1,0 +1,36 @@
+---
+import Title from "./ui/Title.astro";
+
+const { consultationData } = Astro.props;
+const baseUrl = import.meta.env.STRAPI_URL_TWO;
+---
+
+<section class="max-w-[1860px] mx-auto px-4 xl:px-8 overflow-hidden pb-16">
+    <div class="flex max-lg:flex-col max-lg:justify-center max-lg:items-center gap-7 px-14 h-fit pb-16 max-lg:pb-5 rounded-t-[100px] pt-14" style="background: linear-gradient(rgba(240, 0, 29, 0.22) 0%, rgba(217, 217, 217, 0) 100%);">
+      <div class="w-1/2 max-lg:w-full max-lg:flex-col max-lg:justify-center max-lg:items-center">
+        <div class="max-lg:w-full max-lg:flex max-lg:justify-center">
+          <Title text={consultationData.firstTitle} className="mb-3 text-nowrap text-black font-medium" />
+        </div>  
+        <h2 class="font-semibold max-lg:text-center text-nowrap xl:text-3xl text-xl mt-6">{consultationData.MainTitle}</h2>
+        <p class="xl:text-[19px] max-lg:text-center text-[#434343] max-lg:mt-6 text-base mt-9">{consultationData.FirstSentance}</p>
+        <p class="xl:text-[19px] max-lg:text-center text-[#434343] max-lg:mt-6 text-base mt-9">{consultationData.SecondSentance}</p>
+        <div class="flex justify-center items-center lg:justify-start gap-5">
+          <div class="mt-8 md:mt-14">
+            <button class="bg-primary text-white max-sm:w-[160px] max-sm:py-1 max-sm:px-2 max-sm:text-sm text-nowrap px-4 md:px-6 py-2 flex justify-center items-center w-[214px] h-[60px] font-medium text-lg rounded-2xl rounded-bl-none" onclick="window.location.href='https://clinic27intake.bookings.pracsuite.com/guest?l=1949&_gl=1*ejmj75*_ga*MTUzNzgzNjczOS4xNzM0Njk4NTMw*_ga_J0YJHQLKE6*MTczNzQ2MTIxNy4xOC4xLjE3Mzc0NjE3NDAuNTcuMC4w'">
+              <img src="/calendar.svg" alt="Logo" class="h-4 md:h-5 mt-0.5 mr-3 w-auto">
+              {consultationData.CTA1}
+            </button>
+          </div>
+          <div class="mt-8 md:mt-14">
+            <button class="bg-transparent border-2 max-sm:w-[120px] max-sm:py-1 max-sm:px-2 max-sm:text-sm border-slate-800 text-nowrap px-4 md:px-6 py-2 flex justify-center items-center w-[150px] md:w-[168px] h-[60px] md:h-[60px] font-medium text-base md:text-lg rounded-2xl rounded-bl-none" onclick="window.location.href='tel:+61299720040'">
+              <img src="/blackphone.svg" alt="Logo" class="h-4 md:h-5 mt-0.5 mr-3 w-auto">
+              {consultationData.CTA2}
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="w-1/2 max-lg:w-full max-lg:flex max-lg:justify-center">
+        <img src={`${baseUrl}${consultationData.img.url}`} alt="">
+      </div>
+    </div>
+</section>

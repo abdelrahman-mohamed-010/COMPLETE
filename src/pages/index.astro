@@ -1,0 +1,54 @@
+---
+import About from '../components/About.astro';
+import ChooseUs from '../components/ChooseUs.astro';
+import Consultation from '../components/Consultation.astro';
+import Featured from '../components/Featured.astro';
+import HelpYou from '../components/HelpYou.astro';
+import Hero from '../components/Hero.astro';
+import Slider from '../components/Slider.jsx';
+import Layout from '../layouts/Layout.astro';
+import ReactServices from '../components/ReactServices';
+import Goals from "../components/Goals.astro"
+import OurTeam from '../components/OurTeam.astro';
+import CallUs from '../components/CallUs.astro';
+import Map from '../components/Map.astro';
+
+const baseUrl = import.meta.env.STRAPI_URL_TWO;
+const token = import.meta.env.ASTRO_APP_API_TOKEN_TWO;
+
+const response = await fetch(`${baseUrl}/api/pages?populate[landing][populate]=*`, {
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+});
+
+const { data } = await response.json();
+const heroData = data[0].landing.find((component: { __component: string }) => component.__component === "hero-component.hero-component");
+const aboutData = data[0].landing.find((component: { __component: string }) => component.__component === "about.about");
+const sliderData = data[0].landing.find((component: { __component: string }) => component.__component === "slider-animation.slider-animation");
+const whyChooseData = data[0].landing.find((component: { __component: string }) => component.__component === "why-choose.why-choose");
+const letUsHelpYouData = data[0].landing.find((component: { __component: string }) => component.__component === "let-us-help-you.let-us-help-you");
+const featuredSectionData = data[0].landing.find((component: { __component: string }) => component.__component === "featured-section.featured-section");
+const consultationData = data[0].landing.find((component: { __component: string }) => component.__component === "consultation.consultation");
+const servicesData = data[0].landing.find((component: { __component: string }) => component.__component === "services.services");
+const goalsData = data[0].landing.find((component: { __component: string }) => component.__component === "goals.goals");
+const teamsData = data[0].landing.find((component: { __component: string }) => component.__component === "teams-part.teams-part");
+const mapData = data[0].landing.find((component: { __component: string }) => component.__component === "map.map");
+const lastSectionData = data[0].landing.find((component: { __component: string }) => component.__component === "last-section.last-section");
+
+---
+
+<Layout>
+  <Hero heroData={heroData} />
+  <About aboutData={aboutData} />
+  <Slider client:load treatments={sliderData.treatments} />
+  <ChooseUs whyChooseData={whyChooseData} />
+  <HelpYou helpData={letUsHelpYouData} />
+  <Featured featuredData={featuredSectionData} />
+  <Consultation consultationData={consultationData} />
+  <ReactServices client:load servicesData={servicesData}/>
+  <Goals goalsData={goalsData} />
+  <OurTeam teamsData={teamsData} />
+  <Map mapData={mapData} />
+  <CallUs lastSectionData={lastSectionData} />
+</Layout>

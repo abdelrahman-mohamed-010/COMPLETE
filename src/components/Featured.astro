@@ -1,0 +1,33 @@
+---
+import Title from "./ui/Title.astro";
+const { featuredData } = Astro.props;
+const baseUrl = import.meta.env.STRAPI_URL_TWO;
+
+// Features.astro
+---
+
+
+<section class="max-w-[1860px] mx-auto px-4 xl:px-8 overflow-hidden pb-16 max-lg:pb-9">
+  <div class="w-full flex flex-col items-center justify-center gap-1 mt-16">
+    <Title text="Complete Chiropractic" className="mb-3 text-nowrap" />
+    <h1 class="font-bold lg:text-4xl text-2xl">{featuredData.Title}</h1>
+  </div>
+  <div class="flex lg:justify-between lg:items-center max-lg:flex-col max-lg:items-center lg:flex-row gap-4 lg:gap-5 mt-16 max-lg:mt-8 text-[#434343]">
+    <div class="flex items-center h-full">
+      <img src={`${baseUrl}${featuredData.img1.url}`} alt="" class="h-[50px] w-auto">
+    </div>
+    <div class="hidden lg:block h-[120px] mx-2 border-l-2 border-gray-300"></div>
+    <div class="flex items-center h-full">
+      <img src={`${baseUrl}${featuredData.img2.url}`} alt="" class="h-auto w-auto">
+    </div>
+    <div class="hidden lg:block h-[120px] mx-2 border-l-2 border-gray-300"></div>
+    <div class="flex items-center h-full">
+      <img src={`${baseUrl}${featuredData.img3.url}`} alt="" class="h-auto w-auto object-cover">
+    </div>
+    <div class="hidden lg:block h-[120px] mx-2 border-l-2 border-gray-300"></div>
+    <div class="flex items-center max-lg:justify-cente  h-full">
+      <img src={`${baseUrl}${featuredData.img4.url}`} alt="" class="h-auto w-auto">
+    </div>
+  </div>
+</section>
+

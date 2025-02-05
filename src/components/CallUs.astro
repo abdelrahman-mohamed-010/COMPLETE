@@ -1,0 +1,26 @@
+---
+const { lastSectionData } = Astro.props;
+const baseUrl = import.meta.env.STRAPI_URL_TWO;
+---
+
+<section class="max-w-[1860px] mx-auto px-4 xl:px-8 overflow-hidden pb-16 flex gap-16 items-center">
+  <img src={`${baseUrl}${lastSectionData.img.url}`} alt="" class="max-lg:hidden w-2/5 rounded-tr-xl rounded-tl-[110px]">
+  <div class="flex flex-col max-lg:justify-center max-lg:items-center">
+    <h1 class="text-2xl lg:text-3xl font-bold w-full max-lg:text-center">{lastSectionData.title}</h1>
+    <div class="w-full flex justify-start mt-2 max-lg:justify-center">
+      <button class="text-primary text-nowrap flex justify-center items-center font-bold text-2xl">
+        <img src="/primaryphone.svg" alt="Logo" class="h-9 mt-1 mr-3 w-auto">
+        {lastSectionData.number}
+      </button>
+    </div>
+    <p class="xl:text-[19px] text-lg mt-9 max-lg:text-center max-lg:mt-6 w-[80%] text-[#434343]">{lastSectionData.desc}</p>
+    <div class="mt-6">
+      <a href="https://clinic27intake.bookings.pracsuite.com/guest?l=1949&_gl=1*ejmj75*_ga*MTUzNzgzNjczOS4xNzM0Njk4NTMw*_ga_J0YJHQLKE6*MTczNzQ2MTIxNy4xOC4xLjE3Mzc0NjE3NDAuNTcuMC4w" target="_blank">
+        <button class="bg-primary text-white text-nowrap px-4 md:px-6 py-2 flex justify-center items-center w-[214px] h-[60px] font-medium text-lg rounded-2xl rounded-bl-none">
+          <img src="/calendar.svg" alt="Logo" class="h-4 md:h-5 mt-0.5 mr-3 w-auto">
+          {lastSectionData.CTA}
+        </button>
+      </a>
+    </div>
+  </div>
+</section>

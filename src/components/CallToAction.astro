@@ -1,0 +1,52 @@
+---
+// Component: CallToAction.astro
+---
+
+<div class="relative flex items-center justify-center min-h-[300px] bg-cover bg-center" style="background-image: url('/about1.png');">
+  <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+  <div class="relative z-10 flex flex-col sm:flex-row items-center justify-center gap-14 p-6">
+    <a href="tel:+61299720040" class="call-btn" target="_blank" rel="noopener noreferrer">
+      CALL US
+    </a>
+    <a href="https://clinic27intake.bookings.pracsuite.com/guest?l=1949&_gl=1*16y1as*_ga*MTUzNzgzNjczOS4xNzM0Njk4NTMw*_ga_J0YJHQLKE6*MTczNzQ2MTIxNy4xOC4wLjE3Mzc0NjEyMTcuNjAuMC4w" class="book-btn" target="_blank" rel="noopener noreferrer">
+      BOOK APPOINTMENT
+    </a>
+  </div>
+</div>
+
+<style>
+  .call-btn {
+    padding: 12px 82px 12px;
+    background-color: white;
+    color: #1a1a1a;
+    border-radius: 39999px 80000px 0 39999px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 18px;
+  }
+
+  .call-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .book-btn {
+    padding: 12px 32px;
+    background-color: #ED2278;
+    color: white;
+    border-radius: 70000px 39999px  39999px 0;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(237, 34, 120, 0.2);
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .book-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(237, 34, 120, 0.3);
+  }
+</style>

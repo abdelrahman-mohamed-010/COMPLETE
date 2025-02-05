@@ -1,0 +1,124 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+interface BlogPost {
+  id: number;
+  Slug?: string;
+  Title?: string;
+  FeaturedImg: { // Match the structure used in slug page
+    url: string;
+  } | null;
+  Content?: {
+    children?: { text: string }[];
+  }[];
+}
+
+interface PostPath {
+  params: { year: string; month: string };
+  props: { posts: any };
+}
+
+export async function getStaticPaths() {
+  const baseUrl = import.meta.env.STRAPI_URL;
+  const token = import.meta.env.ASTRO_APP_API_TOKEN;
+
+  // Fetch all posts to get their dates
+  const response = await fetch(`${baseUrl}/api/posts?sort=createdAt:DESC&populate=*`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await response.json();
+  const postItems = data.data || [];
+
+  // Generate unique year/month combinations
+  const paths: PostPath[] = [];
+  for (const post of postItems) {
+    // Ensure we have attributes and createdAt before proceeding
+    if (!post?.createdAt) {
+      console.warn('Skipping post without createdAt:', post);
+      continue;
+    }
+
+    const date = new Date(post.createdAt);
+    paths.push({
+      params: {
+        year: date.getFullYear().toString(),
+        month: (date.getMonth() + 1).toString().padStart(2, '0'),
+      },
+      props: { posts: data.data } // Pass posts as props if needed
+    });
+  }
+
+  // Remove duplicates
+  const uniquePaths = Array.from(new Set(paths.map(p => JSON.stringify(p))))
+    .map(str => JSON.parse(str) as PostPath);
+  return uniquePaths;
+}
+
+const { year, month } = Astro.params;
+const baseUrl = import.meta.env.STRAPI_URL;
+const token = import.meta.env.ASTRO_APP_API_TOKEN;
+
+// Filter posts for current year/month
+const startDate = new Date(`${year}-${month}-01`);
+const endDate = new Date(startDate);
+endDate.setMonth(startDate.getMonth() + 1);
+
+const response = await fetch(
+  `${baseUrl}/api/posts?filters[createdAt][$gte]=${startDate.toISOString()}&filters[createdAt][$lt]=${endDate.toISOString()}&populate=*`,
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+);
+
+const data = await response.json();
+const posts = data.data || [];
+const monthName = startDate.toLocaleString('default', { month: 'long' });
+---
+
+<Layout title={`Archive: ${monthName} ${year}`}>
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">Archive: {monthName} {year}</h1>
+    {posts.length > 0 ? (
+      <ul class="space-y-6">
+        {posts.map((post: BlogPost) => {
+          const slug = post.Slug;
+          if (!slug) {
+            return <li>Missing slug for this post</li>;
+          }
+          const excerpt = post.Content?.[0]?.children?.[0]?.text?.slice(0, 400);
+          const imgUrl = post.FeaturedImg ? `${baseUrl}${post.FeaturedImg.url}` : '/default-image.jpg';
+          
+          return (
+            <li class="p-4 rounded">
+              <img
+                src={imgUrl}
+                alt={post.Title || 'No Title'}
+                class="mb-3 w-full  object-cover rounded"
+              />
+              <a href={`/blog/${slug}`} class="text-xl hover:text-blue-600">
+                {post.Title || 'No Title'}
+              </a>
+              {excerpt && (
+                <p class="mt-1 text-gray-700">
+                  {excerpt}...
+                  <a
+                    href={`/blog/${slug}`}
+                    class="text-blue-600 ml-2 hover:underline"
+                  >
+                    Read More
+                  </a>
+                </p>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    ) : (
+      <p>No posts found for this period.</p>
+    )}
+  </div>
+</Layout>

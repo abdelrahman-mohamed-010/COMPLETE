@@ -1,0 +1,39 @@
+---
+import CallToAction from '../components/CallToAction.astro';
+import PrimaryLayout from '../layouts/PrimaryLayout.astro';
+
+const baseUrl = import.meta.env.STRAPI_URL_TWO;
+const token = import.meta.env.ASTRO_APP_API_TOKEN_TWO;
+
+const response = await fetch(`${baseUrl}/api/pages?populate[event][populate]=*`, {
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+});
+
+const { data } = await response.json();
+const Event = data[0].event.find((item: any) => item.__component === "event.event");
+
+console.log(Event);
+
+---
+<PrimaryLayout>
+  <main>
+    <CallToAction />
+    <div class="max-w-[1260px] mx-auto my-20 xl:px-8 px-4 lg:w-full sm:w-full flex flex-col justify-center items-center">
+      {Event.content.map((block: any) => {
+        if (block.type === "paragraph") {
+          return (
+            <p class="whitespace-pre-wrap">
+              {block.children.map((child: any) =>
+                child.bold
+                  ? <strong>{child.text}</strong>
+                  : child.text
+              )}
+            </p>
+          );
+        }
+      })}
+    </div>
+  </main>
+</PrimaryLayout>

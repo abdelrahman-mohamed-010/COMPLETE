@@ -1,0 +1,172 @@
+---
+import CallToAction from '../components/CallToAction.astro';
+import PrimaryLayout from '../layouts/PrimaryLayout.astro';
+
+const baseUrl = import.meta.env.STRAPI_URL_TWO;
+const token = import.meta.env.ASTRO_APP_API_TOKEN_TWO;
+
+const response = await fetch(`${baseUrl}/api/pages?populate[About][populate]=*`, {
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+});
+
+const { data } = await response.json();
+const differenceData = data[0].About.find((component: { __component: string }) => component.__component === "diffrence.diffrence");
+---
+
+<PrimaryLayout>
+    <main>
+        <div>
+            <CallToAction />
+            <div class="max-w-[1860px] mx-auto xl:px-8 px-4 lg:w-full sm:w-full flex flex-col justify-center items-center">
+                <h1 class="text-5xl max-sm:text-3xl font-bold text-center mb-8 max-sm:mb-4 pt-12">
+                    {differenceData.Title1.split(' ').slice(0, -1).join(' ')} 
+                    <span class="text-primary">{differenceData.Title1.split(' ').pop()}</span>
+                </h1>
+                <div class="space-y-8 max-sm:space-y-4">
+                    <!-- Main Heading with TM -->
+                    <h1 class="text-center md:text-4xl max-sm:text-2xl font-bold text-gray-900">
+                        {differenceData.Title2}
+                    </h1>
+
+                    <!-- Decorative Line -->
+                    <div class="flex justify-center items-center">
+                        <div class="w-40 h-px bg-primary"></div>
+                        <div class="w-9 h-9 transform rotate-45 border-b border-r border-primary mx-2"></div>
+                        <div class="w-40 h-px bg-primary"></div>
+                    </div>
+                    <!-- Subheading -->
+                    <h2 class="text-2xl max-sm:text-xl text-center md:text-3xl font-bold text-[#E91E63] tracking-wide">
+                        {differenceData.VideoTitel}
+                    </h2>
+
+                    <!-- Description Text -->
+                    <p class="text-gray-700 text-center w-4/5 max-sm:w-full text-sm -translate-y-3 max-w-3xl mx-auto leading-relaxed">
+                        {differenceData.VideoDesc}
+                    </p>
+                    <!-- YouTube Video Embed -->
+                    <div class="video-container -translate-y-3">
+                        <iframe 
+                            width="100%" 
+                            height="100%" 
+                            src="https://www.youtube.com/embed/XvYeHDnvfPw?rel=0" 
+                            title="ABC Method Explanation Video"
+                            frameborder="0" 
+                            loading="lazy"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen
+                            onerror="this.style.display='none'; this.parentElement.innerHTML += '<p class=\'text-center text-gray-500\'>Video unavailable. Please try again later.</p>'"
+                        ></iframe>
+                    </div>
+                    <div class="w-full text-center">
+                        <h1 class="text-4xl max-sm:text-2xl mb-1 font-medium">
+                            {differenceData.journeyTitleStep1.split(' ').slice(0, -1).join(' ')}
+                            <span class="font-bold">{differenceData.journeyTitleStep1.split(' ').pop()}</span>
+                        </h1>
+                        <p class="text-gray-900 font-medium text-center max-w-3xl mx-auto leading-relaxed max-sm:text-sm">
+                            {differenceData.journeyDescStep1}
+                        </p>
+
+                        <div class="flex justify-center items-center mt-4">
+                            <div class="w-40 h-px bg-black"></div>
+                            <div class="w-9 h-9 transform rotate-45 border-b border-r border-black mx-2"></div>
+                            <div class="w-40 h-px bg-black"></div>
+                        </div>
+                    </div>
+                    <div class="w-full text-center pt-16">
+                        <h1 class="text-4xl max-sm:text-2xl mb-1 font-medium">
+                            {differenceData.journeyTitleStep2.split(' ').slice(0, -2).join(' ')} 
+                            <span class="font-bold">
+                                {differenceData.journeyTitleStep2.split(' ').slice(-2).join(' ')}
+                            </span>
+                        </h1>
+                        <p class="text-gray-900 font-medium text-center max-w-3xl mx-auto leading-relaxed max-sm:text-sm">
+                            {differenceData.journeyDescStep2}
+                        </p>
+
+                        <div class="flex justify-center items-center mt-4">
+                            <div class="w-40 h-px bg-black"></div>
+                            <div class="w-9 h-9 transform rotate-45 border-b border-r border-black mx-2"></div>
+                            <div class="w-40 h-px bg-black"></div>
+                        </div>
+                    </div>
+                    <div class="w-full text-center pt-16">
+                        <h1 class="text-4xl max-sm:text-2xl mb-1 font-medium">
+                            {differenceData.journeyTitleStep3.split(' ').slice(0, 1).join(' ')}
+                            <span class="font-bold">
+                                {differenceData.journeyTitleStep3.split(' ').slice(1, 2).join(' ')}
+                            </span>
+                            <span class="font-bold">
+                                {differenceData.journeyTitleStep3.split(' ').slice(2, 3).join(' ')}
+                            </span>
+                            {differenceData.journeyTitleStep3.split(' ').slice(3, -1).join(' ')}
+                            <span class="font-bold">
+                                {differenceData.journeyTitleStep3.split(' ').slice(-1).join(' ')}
+                            </span>
+                        </h1>
+                        <p class="text-gray-900 font-medium text-center max-w-3xl mx-auto leading-relaxed max-sm:text-sm">
+                            {differenceData.journeyDescStep3}
+                        </p>
+
+                    <div class="flex flex-col items-center justify-center space-y-8 mt-8">
+                        <a href="https://clinic27intake.bookings.pracsuite.com/guest?l=1949&_gl=1*16y1as*_ga*MTUzNzgzNjczOS4xNzM0Njk4NTMw*_ga_J0YJHQLKE6*MTczNzQ2MTIxNy4xOC4wLjE3Mzc0NjEyMTcuNjAuMC4w" 
+                           target="_blank" 
+                           class="meet-our-team-btn my-14 sm:my-8 sm:px-40 sm:py-10">{differenceData.CTA}</a>
+                    </div>
+                    <div class="w-full justify-center flex items-center pt-16 max-sm:pt-8 flex-col">
+                        <img src="/family_frendy1.png" alt="" class="h-48 max-sm:h-28 mb-12 max-sm:mb-6">
+                        <h1 class="text-5xl max-sm:text-3xl font-medium mb-3">WE'RE FAMILY FRIENDLY</h1>
+                        <p class="text-gray-900 font-medium text-center text-sm max-w-3xl mx-auto leading-relaxed mb-20 max-sm:mb-10">
+                            Chiropractic care can be an integral part of your family’s overall health care plans and goals. We have extensive experience working with children and can develop suitable treatment plans to help optimise your child’s health.
+                        </p>
+
+                        <h1 class="text-3xl max-sm:text-xl font-medium mb-2">We focus on long-term results</h1>
+                        <p class="text-gray-900 font-medium text-center text-sm max-w-3xl mx-auto leading-relaxed pb-12 max-sm:pb-6">
+                            At Complete Chiropractic, we don’t just treat your symptoms. Our goal is to find the root causes of the pain and discomfort you’re experiencing.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</PrimaryLayout>
+
+<style>
+    .meet-our-team-btn {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 15px 50px;
+        font-size: 16px;
+        font-weight: bold;
+        width: 240px;
+        height: 54px;
+        background: #ED2278;
+        border-radius: 11000px 6000px 6000px 0px;
+        color: white;
+        @media (max-width: 640px) {
+            padding: 10px 30px;
+            width: 200px;
+            height: 40px;
+            font-size: 14px;
+        }
+    }
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        max-width: 100%;
+        background: #000;
+        margin: 20px 0;
+    }
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+</style>

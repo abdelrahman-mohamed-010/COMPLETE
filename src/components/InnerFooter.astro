@@ -1,0 +1,98 @@
+---
+// InnerFooter.astro
+---
+
+<footer class="text-white font-sans">
+  <div class="bg-darkpurple">
+    <div class="max-w-[1200px] mx-auto px-4 xl:px-8 py-8 xl:py-12">
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-8 xl:gap-12">
+        {/* Navigation Links */}
+        <div class="px-4 xl:px-0">
+          <nav class="grid grid-cols-2 gap-x-8 xl:gap-x-12 gap-y-2">
+            <a href="/" class="text-white no-underline ">HOME</a>
+            <a href="/blog" class="text-white no-underline ">BLOG</a>
+            <a href="/about-us" class="text-white no-underline ">ABOUT US</a>
+            <a href="/our-articles" class="text-white no-underline ">OUR ARTICLES</a>
+            <a href="/our-approach" class="text-white no-underline ">OUR APPROACH</a>
+            <a href="/contact-us" class="text-white no-underline ">CONTACT US</a>
+            <a href="/links" class="text-white no-underline ">LINKS</a>
+            <a href="/faqs" class="text-white no-underline ">FAQS</a>
+            <a href="/events" class="text-white no-underline ">EVENTS</a>
+          </nav>
+        </div>
+
+        {/* Contact & Reviews */}
+        <div class="flex flex-col gap-8 px-4 xl:px-0">
+          <div class="flex flex-col items-center gap-2 justify-center text-3xl font-bold">
+            <img src="/phone.svg" alt="" aria-hidden="true" class=" w-14 h-14 border-2 border-white rounded-xl p-3" />
+            <a href="tel:0299720040" class="text-white no-underline">02 9972 0040</a>
+          </div>
+          
+          <div class="bg-primary p-4 py-16 rounded-3xl text-black font-medium text-center">
+            <p>No reviews yet</p>
+            <small class="block  opacity-80 mt-3 translate-y-7">Powered by Birdeye</small>
+          </div>
+        </div>
+
+        {/* Newsletter */}
+        <div class="px-4 xl:px-0">
+          <h2 class="text-xl font-medium mb-3">NEWSLETTER SIGNUP</h2>
+          <form action="https://usebasin.com/f/5a7ccb151170" id="newsletter_form" accept-charset="UTF-8" autocomplete="on" method="post">
+            <div class="w-full xl:w-[290px] mb-4">
+              <input 
+                type="text" 
+                placeholder="Name" 
+                required 
+                class="w-full bg-white bg-opacity-20 px-2 py-2 text-white placeholder-white placeholder-opacity-80 border-none rounded"
+              />
+            </div>
+            <div class="flex flex-col xl:flex-row gap-4 w-full xl:w-96">
+              <input 
+                type="email" 
+                placeholder="Email" 
+                required 
+                class="w-full bg-white bg-opacity-20 text-white px-2 py-2 placeholder-white placeholder-opacity-80 border-none rounded"
+              />
+              <button 
+                type="submit" 
+                class="p-2 bg-transparent text-white cursor-pointer text-nowrap rounded hover:bg-white/10 transition-colors"
+              >
+                SIGN UP
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* Bottom Footer */}
+  <div class="bg-[#3a104e] border-t border-white border-opacity-20">
+    <div class="max-w-[1200px] mx-auto px-4 xl:px-8 py-4">
+      <div class="flex flex-col font-medium xl:flex-row justify-between  items-center gap-4 text-sm text-center xl:text-left">
+        <div class="opacity-80">
+          <p class=" pb-2">All rights reserved <span class=" text-white">@2025</span> </p>
+          <p class=" text-primary">Complete Chiropractic Dee Why <span class=" text-white"></span></p>
+        </div>
+        <div class="opacity-80 text-center -translate-x-1/2">
+          <!-- <p class="pb-5 italic">Designed by <a href="#" class="text-primary no-underline hover:underline ">Gallant Digital</a></p> -->
+          <p>Design And Seo By <a href="#" class="text-text-primary no-underline hover:underline text-primary">MXD Digital </a></p>
+        </div>
+        <div class="flex gap-4">
+          <a href="#" aria-label="Facebook" class="text-white rounded-full w-8 h-8 flex justify-center items-center  hover:opacity-80">
+            <span class="sr-only">Facebook</span>
+            <svg class="w-5 h-5 xl:w-6 xl:h-12" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="Google Plus" class="text-white rounded-full w-8 h-8 flex justify-center items-center  hover:opacity-80">
+            <span class="sr-only">Google Plus</span>
+            <svg class="w-5 h-5 xl:w-7 xl:h-7 ml-2" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M7.635 10.909v2.619h4.335c-.173 1.125-1.31 3.295-4.335 3.295-2.607 0-4.735-2.16-4.735-4.823s2.127-4.823 4.735-4.823c1.486 0 2.479.633 3.045 1.178l2.073-1.994c-1.33-1.245-3.056-1.995-5.118-1.995C3.412 4.365 0 7.785 0 12s3.413 7.635 7.635 7.635c4.41 0 7.332-3.098 7.332-7.461 0-.501-.054-.885-.12-1.265H7.635z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

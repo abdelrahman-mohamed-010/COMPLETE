@@ -1,0 +1,47 @@
+---
+import Title from "./ui/Title.astro";
+
+// ChooseUs.astro
+const { whyChooseData } = Astro.props;
+const baseUrl = import.meta.env.STRAPI_URL_TWO;
+---
+
+ <section class="max-w-[1860px] mx-auto px-4 xl:px-8 overflow-hidden pb-16">
+  <div class="w-full flex flex-col items-center justify-center gap-1">
+    <Title text="Dee Why's Best Chiropractors" className="mb-3 text-nowrap" />
+    <h1 class="font-bold lg:text-4xl text-2xl">Why Choose Our Chiropractors</h1>
+  </div>
+
+  <!-- Flex container for large screens, column for small ones -->
+  <div class="flex flex-col lg:flex-row gap-4 lg:gap-5 mt-16 text-[#434343]">
+    <!-- Item 1 -->
+    <div class="text-center border-2 px-8 rounded-tr-[50px] rounded-bl-[50px] rounded-tl-[180px] max-lg:rounded-tl-[50px] max-lg:rounded-br-[50px] h-fit pb-12">
+      <img src={`${baseUrl}${whyChooseData.firstIcon.url}`} alt="Male & Female Chiropractors" class="mx-auto pt-9" />
+      <h2 class="font-bold text-nowrap  xl:text-3xl text-xl mt-6">{whyChooseData.firstTitle}</h2>
+      <p class="xl:text-[19px] text-lg mt-9 max-lg:mt-6">{whyChooseData.firstDesc}</p>
+    </div>
+
+    <!-- Item 2 -->
+    <div class="text-center px-14 h-fit pb-16  max-lg:pb-5 rounded-t-[90px]  max-lg:rounded-[50px]" style="background: linear-gradient(rgba(240, 0, 29, 0.22) 0%, rgba(217, 217, 217, 0) 100%);" >
+      <img src={`${baseUrl}${whyChooseData.secondIcon.url}`} alt="On-site Massage Therapist" class="mx-auto pt-9" />
+      <h2 class="font-bold text-nowrap xl:text-3xl text-xl mt-6">{whyChooseData.secondTitle}</h2>
+      <p class="xl:text-[19px] max-lg:mt-6 text-lg mt-9">{whyChooseData.secondDesc}</p>
+    </div>
+
+    <!-- Item 3 -->
+    <div class="text-center px-5 border-2 rounded-tl-[50px] rounded-bl-[50px] rounded-tr-[180px] h-auto  max-lg:rounded-[50px]" >
+      <img src={`${baseUrl}${whyChooseData.ThirdIcon.url}`} alt="We can reduce pain in just one visit" class="mx-auto pt-9" />
+      <h2 class="font-bold xl:text-3xl text-xl mt-6 ">{whyChooseData.ThirdTitle}</h2>
+      <p class="xl:text-[19px] text-lg mt-9 max-lg:mt-6  pb-16 max-lg:pb-7">{whyChooseData.ThirdDesc}</p>
+    </div>
+  </div>
+
+   <div class=" w-full flex justify-center mt-10 max-lg:mt-6">
+        <a href="https://clinic27intake.bookings.pracsuite.com/guest?l=1949&_gl=1*ip7x90*_ga*MTUzNzgzNjczOS4xNzM0Njk4NTMw*_ga_J0YJHQLKE6*MTczNzQ2MTIxNy4xOC4xLjE3Mzc0NjE3NDAuNTcuMC4w" target="_blank">
+          <button class="bg-primary text-white text-nowrap px-6 py-2 flex justify-center items-center   w-[214px] h-[60px] font-bold text-lg max-sm:text-base  rounded-2xl rounded-bl-none ">
+            <img src="/calendar.svg" alt="Logo" class="h-5 mt-0.5 mr-3 w-auto">
+            Book for dee why
+          </button>
+        </a>
+      </div>
+</section>

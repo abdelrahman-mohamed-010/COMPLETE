@@ -1,0 +1,45 @@
+---
+interface Props {
+    mapData: {
+        Hours: {
+            hours: Array<{
+                day: string;
+                time: string;
+                space: string;
+            }>;
+        };
+        HoursTitle: string;
+        backgorund: {
+            url: string;
+        };
+    };
+}
+
+const { mapData } = Astro.props;
+const { hours } = mapData.Hours;
+---
+
+<section class="pb-24 relative">
+    <img 
+        src={`${import.meta.env.STRAPI_URL_TWO}${mapData.backgorund.url}`}
+        alt="" 
+        class="object-cover h-[420px] max-sm:h-[360px] w-full"
+    >
+    <div 
+        class="text-white max-lg:p-5 lg:text-center absolute w-[460px] max-lg:max-w-[450px] 
+        h-[328px] max-lg:h-[280px] bg-primary -bottom-11 max-lg:-bottom-5 -translate-y-1/2 
+        lg:left-1/4 left-1/2 -translate-x-32 max-lg:-translate-x-1/2 max-lg:rounded-[12px] 
+        lg:rounded-[208px_200px_200px_0px] max-sm:w-[90%] max-sm:h-auto max-sm:min-h-[250px]"
+    >
+        <h1 class="font-extrabold lg:text-3xl lg:mt-11 lg:mr-16 max-lg:text-2xl">
+            {mapData.HoursTitle}
+        </h1>
+        <div class="text-start mt-3 lg:mt-4 lg:pl-[90px]">
+            {hours.map(({ day, time, space }) => (
+                <div class="font-semibold text-lg mb-1 max-sm:text-base">
+                    {day} <span class={space}>{time}</span>
+                </div>
+            ))}
+        </div>
+    </div>
+</section>

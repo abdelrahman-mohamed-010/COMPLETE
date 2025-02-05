@@ -1,0 +1,7 @@
+---
+const { text, className = "" } = Astro.props;
+---
+
+<div class={`px-[25px] text-[22px]  min-h-[52px]  min-w-[163px] w-fit font-medium flex items-center py-[2px] pb-0 text-primary bg-[#FFF1F1] border-b-0 border-r-0 border-t-0 border-l-[3px] border-[#F0005C] rounded-[5px]  max-lg:text-base max-lg:min-w-[130px] max-lg:min-h-[46px]  ${className}`}>
+  {text}
+</div>

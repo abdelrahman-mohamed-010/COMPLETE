@@ -1,0 +1,111 @@
+---
+import Sidebar from "../../components/Sidebar";
+import PrimaryLayout from "../../layouts/PrimaryLayout.astro";
+
+export async function getStaticPaths() {
+  const baseUrl = import.meta.env.STRAPI_URL;
+  const token = import.meta.env.ASTRO_APP_API_TOKEN;
+
+  const response = await fetch(`${baseUrl}/api/posts?populate=*`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+
+  const { data } = await response.json();
+  console.log('Static Paths Data:', data);
+
+  if (!data || !Array.isArray(data)) {
+    throw new Error('Invalid data format received from API');
+  }
+
+  return data.map((post: any) => ({
+    params: { slug: post.Slug },
+    props: { 
+      title: post.Title,
+      content: post.Content,
+      image: post.FeaturedImg ? `${baseUrl}${post.FeaturedImg.url}` : '/default-image.jpg',
+      date: post.createdAt || new Date().toISOString()
+    }
+  }));
+}
+
+const { title, content, image, date } = Astro.props;
+const formattedDate = new Date(date).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
+
+const prevSlug = null;
+const nextSlug = null;
+---
+
+<PrimaryLayout>
+  <main class="max-w-[1360px] mx-auto xl:px-8 px-4 py-8 md:py-12">
+    <div class="flex flex-col md:flex-row gap-8">
+      <div class="w-full md:w-3/4">
+        <h1 class="text-3xl md:text-5xl capitalize font-medium mb-6 md:mb-8">{title}</h1>
+        <p class="text-gray-600 mb-4">{formattedDate}</p>
+        <img src={image} alt={title} class="w-full mb-6 md:mb-8" />
+        <div class="prose prose-sm md:prose max-w-none">
+          {content?.map((block: any) => (
+            block.children?.map((child: any) => (
+              <p class="mb-4">{child.text}</p>
+            ))
+          ))}
+        </div>
+        
+        <!-- Navigation Buttons -->
+        <div class="flex flex-col sm:flex-row justify-between gap-4 mt-8 md:mt-12 w-full">
+          {prevSlug && (
+            <a 
+              href={`/blog/${prevSlug}`}
+              class="flex items-center justify-center sm:justify-start gap-2 px-4 md:px-6 py-2 rounded hover:bg-primary/90 hover:text-white transition-colors group border border-gray-200 sm:border-none"
+            >
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width="16" 
+                height="16" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                stroke-width="2" 
+                stroke-linecap="round" 
+                stroke-linejoin="round" 
+                class="group-hover:translate-x-[-4px] transition-transform"
+              >
+                <path d="m15 18-6-6 6-6"/>
+              </svg>
+              Previous Post
+            </a>
+          )}
+          {nextSlug && (
+            <a 
+              href={`/blog/${nextSlug}`}
+              class="flex items-center justify-center sm:justify-end gap-2 px-4 md:px-6 py-2 rounded hover:bg-primary/90 hover:text-white transition-colors sm:ml-auto group border border-gray-200 sm:border-none"
+            >
+              Next Post
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width="16" 
+                height="16" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                stroke-width="2" 
+                stroke-linecap="round" 
+                stroke-linejoin="round"
+                class="group-hover:translate-x-[4px] transition-transform"
+              >
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            </a>
+          )}
+        </div>
+      </div>
+      
+      <Sidebar client:only="react" />
+    </div>
+  </main>
+</PrimaryLayout>

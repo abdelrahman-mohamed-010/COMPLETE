@@ -1,0 +1,54 @@
+---
+const treatments = [
+  "Personalised Treatment Plans",
+  "Expert Consultation",
+  "Advanced Therapy",
+  "Holistic Care",
+  "Regular Monitoring",
+  "Customized Programs"
+];
+---
+
+<section class="overflow-hidden">
+  <div class="slider-container bg-darkpurple">
+    <div class="slider-track" aria-hidden="true">
+      {treatments.map((treatment) => (
+        <div class="slide-item">
+          <div class="star-content">
+            <img 
+              src="/star.webp" 
+              alt="Star icon" 
+              width="48" 
+              height="48" 
+            />
+          </div>
+          <div class="text-content">
+            <h1 class="text-white font-bold text-2xl tracking-wide">
+              {treatment}
+            </h1>
+          </div>
+          </div>
+      ))}
+    </div>
+    <!-- Duplicate for seamless loop -->
+    <div class="slider-track" aria-hidden="true">
+      {treatments.map((treatment) => (
+        <div class="slide-item">
+          <div class="text-content">
+            <h1 class="text-white font-bold text-2xl tracking-wide">
+              {treatment}
+            </h1>
+          </div>
+          <div class="star-content">
+            <img 
+              src="/star.webp" 
+              alt="Star icon" 
+              width="48" 
+              height="48" 
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,254 @@
+---
+import Title from "../components/ui/Title.astro";
+import PrimaryLayout from "../layouts/PrimaryLayout.astro";
+
+interface Benefit {
+  title: string;
+  content: string;
+}
+
+interface Section {
+  title: string;
+  NavTitle?: string; // Make NavTitle optional
+  Navtitle?: string; // Add Navtitle (alternate spelling)
+  intro: string;
+  sections: Benefit[];
+  conclusion: string;
+}
+
+interface WhyMessage {
+  title: string;
+  subtitle: string;
+  description: string;
+  benefits: string[];
+}
+
+interface Team {
+  title: string;
+  subtitle: string;
+  description: string;
+  benefits: string[];
+}
+
+interface MessageComponent {
+  __component: string;
+  id: number;
+  WhyMessage: WhyMessage;
+  Team: Team;
+  Components: {
+    id: number;
+    Json: {
+      data?: Section;
+      title?: string;
+      intro?: string;
+      sections?: Benefit[];
+      conclusion?: string;
+    };
+  }[];
+}
+
+const baseUrl = import.meta.env.STRAPI_URL_TWO;
+const token = import.meta.env.ASTRO_APP_API_TOKEN_TWO;
+
+const response = await fetch(`${baseUrl}/api/pages?populate[message][populate]=*`, {
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+});
+
+const { data } = await response.json();
+const message = data[0].message.find((component: { __component: string }) => 
+  component.__component === "message-page.message-page"
+) as MessageComponent;
+
+const heroSection = {
+  title: "MASSAGE AT",
+  subtitle: "DEE WHY PRACTICE",
+  image: "/dee.png"
+};
+
+const whyMassageData = message.WhyMessage;
+const teamSection = message.Team;
+const deeWhySections = message.Components.map(comp => {
+  if ('data' in comp.Json) {
+    return comp.Json.data;
+  }
+  return comp.Json;
+}) as Section[];
+
+---
+
+<PrimaryLayout>
+  {/* Hero Section - Keep existing hardcoded section */}
+  <section class="relative max-w-[1860px] mx-auto xl:px-8">
+    <div class="relative">
+      <img src={heroSection.image} alt="" class="w-full h-[300px] md:h-auto object-cover">
+      <div class="absolute max-sm:px-4 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center md:items-start gap-4 md:-translate-x-0 md:left-24">
+        <h1 class="text-3xl md:text-[80px] text-white font-bold text-center md:text-left">{heroSection.title}</h1>
+        <h2 class="text-3xl md:text-[80px] text-primary font-bold text-center md:text-left lg:mt-12">{heroSection.subtitle}</h2>
+        <a href="https://clinic27intake.bookings.pracsuite.com/guest?l=1949&_gl=1*16y1as*_ga*MTUzNzgzNjczOS4xNzM0Njk4NTMw*_ga_J0YJHQLKE6*MTczNzQ2MTIxNy4xOC4wLjE3Mzc0NjEyMTcuNjAuMC4w" target="_blank">
+          <button class="meet-our-team-btn mt-3 text-nowrap lg:mt-12">BOOK APPOINTMENT</button>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* Why Massage Section */}
+  <div class="flex flex-col  max-w-[1860px] mx-auto xl:px-8 lg:flex-row-reverse max-sm:px-4 justify-between my-10 md:my-20">
+    <img src="mssage.jpg" alt="" class="hidden lg:block w-[50%] h-[660px] rounded-3xl rounded-tr-[60px]">
+    <div class="flex flex-col justify-center items-center lg:items-start w-full lg:w-auto">
+      <Title text={whyMassageData.title} />
+      <h1 class="text-3xl lg:text-5xl mt-4 font-semibold w-full max-lg:text-center">
+        {whyMassageData.subtitle}
+      </h1>
+      <div class="w-full flex justify-start mt-2 max-lg:justify-center"></div>
+      <p class="xl:text-[19px] text-lg mt-9 mb-5 max-lg:text-center max-lg:mt-6 w-[80%] text-[#434343]">
+        {whyMassageData.description}
+        <ul class="text-xl text-[#434343]">
+          {whyMassageData.benefits.map(benefit => (
+            <li class="flex gap-2 items-center mb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="#F0005C" viewBox="0 24 24" width="24" height="24">
+                <path d="M9 16.2l-4.2-4.2-1.4 1.4 5.6 5.6 12-12-1.4-1.4z"/>
+              </svg>
+              {benefit}
+            </li>
+          ))}
+        </ul>
+        <a href="https://clinic27intake.bookings.pracsuite.com/guest?l=1949&_gl=1*16y1as*_ga*MTUzNzgzNjczOS4xNzM0Njk4NTMw*_ga_J0YJHQLKE6*MTczNzQ2MTIxNy4xOC4wLjE3Mzc0NjEyMTcuNjAuMC4w" target="_blank">
+          <button class="meet-our-team-btn mt-3 z-20 max-md:mb-8 text-nowrap lg:mt-12 max-md:mt-8">
+            BOOK APPOINTMENT
+          </button>
+        </a>
+      </p>
+    </div>
+  </div>
+
+  {/* Team Section */}
+  <div class="bg-darkpurple py-12 md:py-28 mb-12 max-sm:px-4">
+    <div class="relative flex flex-col lg:flex-row justify-between w-full gap-8 md:gap-28 max-w-[1860px] mx-auto px-4 xl:px-8">
+      <img src="/Roberto.jpg" alt="" class="hidden lg:block w-[70%] h-[760px] rounded-3xl rounded-tr-[60px]">
+      <div class="flex flex-col justify-center items-center lg:items-start w-full lg:w-auto">
+        <Title text={teamSection.title} />
+        <h1 class="text-3xl lg:text-5xl mt-4 font-semibold w-full max-lg:text-center text-white">
+          {teamSection.subtitle}
+        </h1>
+        <div class="w-full flex justify-start mt-2 max-lg:justify-center"></div>
+        <p class="xl:text-[19px] text-lg mt-9 mb-5 max-lg:text-center max-lg:mt-6 w-[80%] text-white">
+          {teamSection.description}
+          <ul class="text-xl text-white">
+            {teamSection.benefits.map(benefit => (
+              <li class="flex gap-2 items-center mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="#F0005C" viewBox="0 24 24" width="24" height="24">
+                  <path d="M9 16.2l-4.2-4.2-1.4 1.4 5.6 5.6 12-12-1.4-1.4z"/>
+                </svg>
+                {benefit}
+              </li>
+            ))}
+          </ul>
+          <a href="https://clinic27intake.bookings.pracsuite.com/guest?l=1949&_gl=1*16y1as*_ga*MTUzNzgzNjczOS4xNzM0Njk4NTMw*_ga_J0YJHQLKE6*MTczNzQ2MTIxNy4xOC4wLjE3Mzc0NjEyMTcuNjAuMC4w" target="_blank">
+            <button class="meet-our-team-btn mt-3 text-nowrap lg:mt-12 max-md:mt-8">
+              BOOK APPOINTMENT
+            </button>
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {/* Dee Why Sections */}
+  <div class="max-w-[1860px] mx-auto xl:px-8">
+    {deeWhySections.map(section => {
+      // Handle both NavTitle and Navtitle cases
+      const navId = ((section.NavTitle || section.Navtitle || section.title) || '')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, '-');
+      
+      return (
+        <div class="bg-section py-12 my-12 relative px-2 md:px-4 rounded-3xl rounded-t-none scroll-margin-top-32" id={navId}>
+          <div>
+            <div class="w-full flex max-md:flex-col max-md:gap-4 justify-between items-center">
+              <h1 class="text-3xl md:text-5xl font-bold mb-4">
+                {section.title}
+              </h1>
+              <a href="https://clinic27intake.bookings.pracsuite.com/guest?l=1949&_gl=1*16y1as*_ga*MTUzNzgzNjczOS4xNzM0Njk4NTMw*_ga_J0YJHQLKE6*MTczNzQ2MTIxNy4xOC4wLjE3Mzc0NjEyMTcuNjAuMC4w" target="_blank">
+                <button class="meet-our-team-btn z-20 max-md:mb-8 text-nowrap">
+                  BOOK APPOINTMENT
+                </button>
+              </a>
+            </div>
+            <p class="text-lg mb-12 text-massage-text">
+              {section.intro}
+            </p>
+            <div class="grid md:grid-cols-2 gap-x-16 gap-y-12">
+              <div class="space-y-12">
+                {section.sections.slice(0, 3).map(item => {
+                  const mainTitle = item.title.split(" in ")[0];
+                  const sectionId = mainTitle.toLowerCase().replace(/\s+/g, '-');
+                  return (
+                    <div id={sectionId} class="scroll-mt-32">
+                      <h2 class="text-2xl font-bold mb-4">{item.title}</h2>
+                      <p class="text-massage-text">{item.content}</p>
+                    </div>
+                  );
+                })}
+              </div>
+              <div class="space-y-12">
+                {section.sections.slice(3).map(item => {
+                  const mainTitle = item.title.split(" in ")[0];
+                  const sectionId = mainTitle.toLowerCase().replace(/\s+/g, '-');
+                  return (
+                    <div id={sectionId} class="scroll-mt-32">
+                      <h2 class="text-2xl font-bold mb-4">{item.title}</h2>
+                      <p class="text-massage-text">{item.content}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <p class="text-lg mt-12 text-massage-text">
+              {section.conclusion}
+            </p>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+
+</PrimaryLayout>
+
+<style>
+  .meet-our-team-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 50px;
+    font-size: 16px;
+    font-weight: bold;
+    width: 240px;
+    height: 54px;
+    background: #ED2278;
+    border-radius: 6000px 11000px 0px 6000px ;
+    color: white;
+    @media (max-width: 640px) {
+      padding: 10px 30px;
+      width: 200px;
+      height: 40px;
+      font-size: 10px;
+    }
+  }
+
+  .bg-section {
+    padding-left: 80px;
+    background: linear-gradient(92.61deg, rgba(240, 0, 29, 0.12) 5.91%, rgba(217, 217, 217, 0) 99.08%);
+    border-bottom-left-radius: 50px;
+    @media (max-width: 640px) {
+      padding-left: 20px;
+    }
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+</style>

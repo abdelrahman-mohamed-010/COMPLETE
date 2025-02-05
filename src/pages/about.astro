@@ -1,0 +1,68 @@
+---
+import CallToAction from '../components/CallToAction.astro';
+import PrimaryLayout from '../layouts/PrimaryLayout.astro';
+
+const baseUrl = import.meta.env.STRAPI_URL_TWO;
+const token = import.meta.env.ASTRO_APP_API_TOKEN_TWO;
+
+const response = await fetch(`${baseUrl}/api/pages?populate[About][populate]=*`, {
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+});
+
+
+const { data } = await response.json();
+const aboutData = data[0].About.find((component: { __component: string }) => component.__component === "about-main.about-main");
+---
+
+<PrimaryLayout>
+    <main class="">
+        <div>
+            <CallToAction />
+            <div class="max-w-[1860px] mx-auto xl:px-8 px-4 lg:w-3/4 sm:w-full flex flex-col justify-center items-center">
+                <h1 class="text-5xl font-bold text-center mb-8 md:pb-7 max-sm:text-3xl lg:my-2 lg:mt-5">{aboutData.Title}</h1>
+                <div class="space-y-6 text-[#000000] text-sm sm:text-base">
+                    {aboutData.description.map((paragraph: any) => (
+                        <p>
+                            {paragraph.children.map((child: any) => (
+                                child.underline ? 
+                                <span class="text-primary">{child.text}</span> : 
+                                <span>{child.text}</span>
+                            ))}
+                        </p>
+                    ))}
+                </div>
+                <button onclick="window.location.href='/team'" class="meet-our-team-btn my-14 sm:my-8 sm:px-40 sm:py-10">{aboutData.CTA}</button>
+                <img src={`${baseUrl}${aboutData.img.url}`} alt="About Us Banner" class="w-[80%] mb-12 mt-4 max-sm:-mt-5 sm:w-full">
+            </div>
+        </div>
+    </main>
+</PrimaryLayout>
+
+<style>
+    .meet-our-team-btn {
+        display: flex;
+        
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 15px 50px;
+        font-size: 16px;
+        font-weight: bold;
+        width: 240px;
+        height: 54px;
+        background: #ED2278;
+        border-radius: 11000px 6000px 6000px 0px;
+        color: white;
+        @media (max-width: 640px) {
+            padding: 10px 30px;
+            width: 200px;
+            height: 40px;
+            font-size: 14px;
+        }
+    }
+    .text-primary {
+        color: #ED2278;
+    }
+</style>

@@ -1,0 +1,58 @@
+---
+import Nav from '../components/Nav';
+import Form from "../components/Form.astro";
+import InnerFooter from "../components/InnerFooter.astro";
+interface Props {
+  currentPath?: string;
+  hideBookButton?: boolean;  // Add new prop
+}
+
+const { currentPath = '', hideBookButton = true } = Astro.props; 
+
+// Fetch approach pages data
+const baseUrl = import.meta.env.STRAPI_URL_TWO;
+const token = import.meta.env.ASTRO_APP_API_TOKEN_TWO;
+
+const response = await fetch(`${baseUrl}/api/approach-pages`, {
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+});
+
+const { data } = await response.json();
+
+// Transform the data for the Nav component
+const approachItems = data.map((page: any) => ({
+  slug: page.Slug,
+  title: page.Title
+}));
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+
+		
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>About - Complete Chiro Care</title>
+	</head>
+	<body class="">
+		<Nav client:load hideBookButton={hideBookButton} approachItems={approachItems} />
+		<slot />
+		{currentPath !== "contact" && <Form />}
+		<InnerFooter />
+	</body>
+</html>
+
+<style>
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+		/* Add any specific styles for the about page layout */
+	}
+</style>
