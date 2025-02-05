@@ -294,25 +294,30 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
             Home
           </a>
 
-          <button
-            onClick={() => toggleSubMenu("about")}
-            className="flex justify-between items-center text-gray-900 hover:text-gray-700 text-lg py-3 border-b border-gray-200 w-full"
-          >
-            About Us
-            <svg
-              className={`w-5 h-5 text-primary transform transition-transform duration-200 ${
-                openSubMenu === "about" ? "rotate-45" : ""
-              }`}
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+          {/* About Us */}
+          <div className="flex justify-between items-center text-lg py-3 border-b border-gray-200">
+            <a href="/about" className="text-gray-900 hover:text-gray-700">
+              About Us
+            </a>
+            <button
+              onClick={() => toggleSubMenu("about")}
+              className="flex-shrink-0"
             >
-              <path d="M12 4v16m8-8H4"></path>
-            </svg>
-          </button>
+              <svg
+                className={`w-5 h-5 text-primary transform transition-transform duration-200 ${
+                  openSubMenu === "about" ? "rotate-45" : ""
+                }`}
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path d="M12 4v16m8-8H4"></path>
+              </svg>
+            </button>
+          </div>
           <div
             className={`overflow-hidden transition-[max-height] duration-300 ease-in-out ${
               openSubMenu === "about" ? "max-h-[500px]" : "max-h-0"
@@ -334,25 +339,30 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
             </div>
           </div>
 
-          <button
-            onClick={() => toggleSubMenu("approach")}
-            className="flex justify-between items-center text-gray-900 hover:text-gray-700 text-lg py-3 border-b border-gray-200 w-full"
-          >
-            Our Approach
-            <svg
-              className={`w-5 h-5 text-primary transform transition-transform duration-200 ${
-                openSubMenu === "approach" ? "rotate-45" : ""
-              }`}
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+          {/* Our Approach */}
+          <div className="flex justify-between items-center text-lg py-3 border-b border-gray-200">
+            <a href="/approach" className="text-gray-900 hover:text-gray-700">
+              Our Approach
+            </a>
+            <button
+              onClick={() => toggleSubMenu("approach")}
+              className="flex-shrink-0"
             >
-              <path d="M12 4v16m8-8H4"></path>
-            </svg>
-          </button>
+              <svg
+                className={`w-5 h-5 text-primary transform transition-transform duration-200 ${
+                  openSubMenu === "approach" ? "rotate-45" : ""
+                }`}
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path d="M12 4v16m8-8H4"></path>
+              </svg>
+            </button>
+          </div>
           <div
             className={`overflow-hidden transition-[max-height] duration-300 ease-in-out ${
               openSubMenu === "approach" ? "max-h-[1500px]" : "max-h-0"
@@ -371,32 +381,30 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
             </div>
           </div>
 
-          <a
-            href="/team"
-            className="text-gray-900 hover:text-gray-700 text-lg py-3 border-b border-gray-200"
-          >
-            Our Team
-          </a>
-
-          <button
-            onClick={() => toggleSubMenu("massage")}
-            className="flex justify-between items-center text-gray-900 hover:text-gray-700 text-lg py-3 border-b border-gray-200 w-full"
-          >
-            Massage
-            <svg
-              className={`w-5 h-5 text-primary transform transition-transform duration-200 ${
-                openSubMenu === "massage" ? "rotate-45" : ""
-              }`}
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+          {/* Massage */}
+          <div className="flex justify-between items-center text-lg py-3 border-b border-gray-200">
+            <a href="/massage" className="text-gray-900 hover:text-gray-700">
+              Massage
+            </a>
+            <button
+              onClick={() => toggleSubMenu("massage")}
+              className="flex-shrink-0"
             >
-              <path d="M12 4v16m8-8H4"></path>
-            </svg>
-          </button>
+              <svg
+                className={`w-5 h-5 text-primary transform transition-transform duration-200 ${
+                  openSubMenu === "massage" ? "rotate-45" : ""
+                }`}
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path d="M12 4v16m8-8H4"></path>
+              </svg>
+            </button>
+          </div>
           <div
             className={`overflow-hidden transition-[max-height] duration-300 ease-in-out ${
               openSubMenu === "massage" ? "max-h-[1000px]" : "max-h-0"
@@ -407,6 +415,7 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
             </div>
           </div>
 
+          {/* Other menu items remain unchanged */}
           <a
             href="/media"
             className="text-gray-900 hover:text-gray-700 text-lg py-3 border-b border-gray-200"
@@ -414,7 +423,7 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
             Media
           </a>
           <a
-            href="/blog"  // Changed from "#" to "/blog"
+            href="/blog"
             className="text-gray-900 hover:text-gray-700 text-lg py-3 border-b border-gray-200"
           >
             Blog

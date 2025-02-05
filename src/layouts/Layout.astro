@@ -1,6 +1,22 @@
 ---
 import Footer from "../components/Footer.astro";
 import Nav from "../components/Nav.jsx";
+
+// Fetch approach pages data (similar to PrimaryLayout)
+const baseUrl = import.meta.env.STRAPI_URL_TWO;
+const token = import.meta.env.ASTRO_APP_API_TOKEN_TWO;
+
+const response = await fetch(`${baseUrl}/api/approach-pages`, {
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+});
+
+const { data } = await response.json();
+const approachItems = data.map((page: any) => ({
+  slug: page.Slug,
+  title: page.Title
+}));
 ---
 
 <!doctype html>
@@ -13,9 +29,9 @@ import Nav from "../components/Nav.jsx";
 		<title>completechirocare</title>
 	</head>
 	<body>
-  <Nav client:load />
+		<Nav client:load approachItems={approachItems} />
 		<slot />
-    <Footer />
+		<Footer />
 	</body>
 </html>
 
