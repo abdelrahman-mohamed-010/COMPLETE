@@ -19,6 +19,32 @@ const ReactServices = ({ servicesData }) => {
     return `${baseUrl}${img}`;
   };
 
+  const getServicePath = (title) => {
+    const paths = {
+      "Headache": "/approach/headaches",
+      "Back Pain": "/approach/lower-back-pain-relief-chiropractor-sydney",
+      "Pregnancy Care": "/approach/pregnancy",
+      "Sports Injury": "/approach/sports-chiropractors-sydney",
+      "Vertigo": "/approach/vertigo-treatment-sydney-chiropractors-dee-why",
+      "Arthritis": "/approach/arthritis-treatment-sydney",
+      "Migraine": "/approach/migraine-treatment-sydney"
+    };
+
+    // Handle partial matches if exact match not found
+    if (!paths[title]) {
+      const lowerTitle = title.toLowerCase();
+      if (lowerTitle.includes('headache')) return paths["Headache"];
+      if (lowerTitle.includes('back')) return paths["Back Pain"];
+      if (lowerTitle.includes('pregnancy')) return paths["Pregnancy Care"];
+      if (lowerTitle.includes('sport')) return paths["Sports Injury"];
+      if (lowerTitle.includes('vertigo')) return paths["Vertigo"];
+      if (lowerTitle.includes('arthritis')) return paths["Arthritis"];
+      if (lowerTitle.includes('migraine')) return paths["Migraine"];
+    }
+
+    return paths[title] || "/";
+  };
+
   const activeService = servicesData?.section?.find(
     (service) => service.Title === IsActive
   );
@@ -45,13 +71,14 @@ const ReactServices = ({ servicesData }) => {
                 alt={service.Title}
                 className="w-full h-full object-cover rounded-tl-[120px] rounded-br-[120px]"
               />
-              <span
+              <a
+                href={getServicePath(service.Title)}
                 style={{ borderRadius: "38px 72px 0px 38px" }}
                 className="absolute flex justify-center items-center gap-2 bg-primary text-white p-4 pr-6 text-lg font-bold bottom-4 left-4"
               >
                 Read More
                 <img src="whiteright.svg" alt="arrow" className="w-7 h-7" />
-              </span>
+              </a>
             </div>
             <div className="w-[60%]">
               <h1 className="font-semibold text-[30px] mt-3 max-lg:text-center max-xl:text-2xl">
@@ -101,9 +128,12 @@ const ReactServices = ({ servicesData }) => {
                 alt={activeService.Title}
                 className="w-full h-full object-cover rounded-tl-[120px] rounded-br-[120px]"
               />
-              <span className=" flex w-fit justify-center items-center gap-2  bg-primary text-white p-4 pr-9 text-lg font-bold  left-4 rounded-2xl rounded-bl-none">
+              <a
+                href={getServicePath(activeService.Title)}
+                className="flex w-fit justify-center items-center gap-2 bg-primary text-white p-4 pr-9 text-lg font-bold left-4 rounded-2xl rounded-bl-none"
+              >
                 Read More
-              </span>
+              </a>
             </div>
             <div>
               <h1 className="font-semibold text-[30px]  mt-3 max-lg:text-center max-xl:text-2xl">

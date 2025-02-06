@@ -16,7 +16,7 @@ const { data } = await response.json();
 const blogPosts = data.map((post: any) => ({
   title: post.Title,
   image: post.FeaturedImg ? `${baseUrl}${post.FeaturedImg.url}` : '/default-image.jpg',
-  excerpt: post.Content[0]?.children?.[0]?.text || 'No excerpt available',
+  excerpt: post.Content[0]?.children?.[0]?.text?.slice(0, 150) + '...' || 'No excerpt available',
   slug: post.Slug
 }));
 ---
@@ -27,15 +27,29 @@ const blogPosts = data.map((post: any) => ({
      <h2 class="w-full text-center text-1xl md:text-4xl font-medium mb-8 md:mb-12">Welcome</h2>
     <div class="flex flex-col md:flex-row gap-8">
       <div class="w-full md:w-3/4">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+        <div class="columns-1 md:columns-2 gap-4 md:gap-8 [column-fill:_balance] space-y-4 md:space-y-8">
           {blogPosts.map((post: { title: string; image: string; excerpt: string; slug: string }) => (
-            <div class="border rounded-lg overflow-hidden shadow-sm">
-              <img src={post.image} alt={post.title} class="w-full h-40 md:h-48 object-cover"/>
-              <div class="p-3 md:p-4">
-                <h2 class="text-lg md:text-xl font-bold mb-2">{post.title}</h2>
-                <p class="text-gray-600 text-sm md:text-base mb-3 md:mb-4">{post.excerpt}</p>
-                <a href={`/blog/${post.slug}`} class="text-primary hover:underline">Read More →</a>
-              </div>
+            <div class="break-inside-avoid">
+              <a href={`/blog/${post.slug}`} class="border rounded-lg overflow-hidden shadow-sm transition-transform duration-300 hover:shadow-md hover:-translate-y-1 block bg-white">
+                <div class="aspect-w-16 aspect-h-9">
+                  <img 
+                    src={post.image} 
+                    alt={post.title} 
+                    class="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="p-4 md:p-5">
+                  <h2 class="text-lg md:text-xl font-bold mb-3 line-clamp-2 hover:text-primary">{post.title}</h2>
+                  <p class="text-gray-600 text-sm md:text-base mb-3 line-clamp-3">{post.excerpt}</p>
+                  <span class="text-primary font-medium inline-flex items-center">
+                    Read More 
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                  </span>
+                </div>
+              </a>
             </div>
           ))}
         </div>
