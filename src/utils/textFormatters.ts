@@ -9,25 +9,35 @@ interface RichTextBlock {
 }
 
 export const processRichText = (richText: RichTextBlock[]): string => {
-  if (!Array.isArray(richText)) return '';
-  
+  if (!Array.isArray(richText)) return "";
+
   return richText
-    .map(block => {
-      if (block.type === 'paragraph') {
+    .map((block) => {
+      if (block.type === "paragraph") {
         const text = block.children
           .map((child) => child.text)
-          .join('')
+          .join("")
           .trim();
 
-        if (text === '–' || text === '') return text;
+        if (text === "–" || text === "") return text;
 
-        if (text.startsWith('–')) {
+        if (text.startsWith("–")) {
           return `<li>${text.substring(1).trim()}</li>`;
         }
-        
+
+        // Count words in the text
+        const wordCount = text
+          .split(/\s+/)
+          .filter((word) => word.length > 0).length;
+
+        // If text has 1-2 words, make it bold
+        if (wordCount > 0 && wordCount <= 2) {
+          return `<strong>${text}</strong>`;
+        }
+
         return `<p class="mb-2">${text}</p>`;
       }
-      return '';
+      return "";
     })
-    .join('\n');
+    .join("\n");
 };

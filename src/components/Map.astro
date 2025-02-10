@@ -36,8 +36,9 @@ const { hours } = mapData.Hours;
         </h1>
         <div class="text-start mt-3 lg:mt-4 lg:pl-[90px]">
             {hours.map(({ day, time, space }) => (
-                <div class="font-semibold text-lg mb-1 max-sm:text-base">
-                    {day} <span class={space}>{time}</span>
+                <div class="font-semibold text-lg mb-1 max-sm:text-base grid grid-cols-[100px_1fr] gap-4">
+                    <span>{day}</span>
+                    <span class={space}>{time}</span>
                 </div>
             ))}
         </div>

@@ -33,7 +33,7 @@ const aboutData = data[0].About.find((component: { __component: string }) => com
                         </p>
                     ))}
                 </div>
-                <button onclick="window.location.href='/team'" class="meet-our-team-btn my-14 sm:my-8 sm:px-40 sm:py-10">{aboutData.CTA}</button>
+                <button onclick="window.location.href='/team'" class="meet-our-team-btn my-14 sm:my-8 sm:px-40 sm:py-10 hover:opacity-80">{aboutData.CTA}</button>
                 <img src={`${baseUrl}${aboutData.img.url}`} alt="About Us Banner" class="w-[80%] mb-12 mt-4 max-sm:-mt-5 sm:w-full">
             </div>
         </div>

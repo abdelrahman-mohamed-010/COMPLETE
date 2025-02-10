@@ -50,11 +50,32 @@ const nextSlug = null;
         <p class="text-gray-600 mb-4">{formattedDate}</p>
         <img src={image} alt={title} class="w-full mb-6 md:mb-8" />
         <div class="prose prose-sm md:prose max-w-none">
-          {content?.map((block: any) => (
-            block.children?.map((child: any) => (
-              <p class="mb-4">{child.text}</p>
-            ))
-          ))}
+          {content && Array.isArray(content) && content.map((block: any) => {
+            if (block.type === 'list') {
+              const ListTag = block.format === 'ordered' ? 'ol' : 'ul';
+              return (
+                <ListTag class="list-decimal ml-4 mb-4">
+                  {block.children.map((item: any) => (
+                    <li class="mb-2">
+                      {item.children.map((child: any) => (
+                        child.bold ? 
+                          <strong>{child.text}</strong> : 
+                          <Fragment set:html={child.text} />
+                      ))}
+                    </li>
+                  ))}
+                </ListTag>
+              );
+            }
+            
+            return block?.children?.[0]?.text && (
+              <p class="mb-4">
+                {block.children[0].bold ? 
+                  <strong>{block.children[0].text}</strong> : 
+                  block.children[0].text}
+              </p>
+            );
+          })}
         </div>
         
         <!-- Navigation Buttons -->

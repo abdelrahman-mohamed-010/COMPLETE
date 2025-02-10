@@ -22,7 +22,7 @@ const baseUrl = import.meta.env.STRAPI_URL_TWO;
           </p>
           <div class="w-full flex justify-start mt-10 max-xl:mt-6 max-xl:justify-center">
             <button 
-              class="bg-primary text-white text-nowrap px-6 py-2 flex justify-center items-center w-[254px] h-[60px] font-bold text-lg max-sm:text-base rounded-2xl rounded-bl-none"
+              class="bg-primary text-white text-nowrap px-6 py-2 flex justify-center items-center w-[254px] h-[60px] font-bold text-lg max-sm:text-base rounded-2xl rounded-bl-none transition-all duration-300 hover:bg-opacity-90 "
               onclick={`window.location.href='tel:${helpData.PhoneNumber}'`}
             >
               <img src="/phone.svg" alt="Logo" class="h-6 mt-0.5 mr-3 w-auto">
@@ -33,11 +33,13 @@ const baseUrl = import.meta.env.STRAPI_URL_TWO;
 
         <!-- Right Column -->
         <div class="relative w-1/2 max-xl:w-full">
-          <img 
-            src={`${baseUrl}${helpData.img.url}`} 
-            alt="team" 
-            class="w-full h-full rounded-br-none mb-5 mt-7 rounded-tr-[200px] max-xl:rounded-tr-[130px] rounded-bl-[120px] max-xl:rounded-l-[60px] rounded-[100px] max-xl:h-auto max-xl:object-cover"
-          />
+          <div class="aspect-[4/3] relative">
+            <img 
+              src={`${baseUrl}${helpData.img.url}`} 
+              alt="team" 
+              class="w-full h-full absolute inset-0 object-cover rounded-br-none mb-5 mt-7 rounded-tr-[200px] max-xl:rounded-tr-[130px] rounded-bl-[120px] max-xl:rounded-l-[60px] rounded-[100px]"
+            />
+          </div>
         </div>
       </div>
     </div>

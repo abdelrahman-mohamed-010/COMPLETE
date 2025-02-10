@@ -85,7 +85,7 @@ const deeWhySections = message.Components.map(comp => {
       <img src={heroSection.image} alt="" class="w-full h-[300px] md:h-auto object-cover">
       <div class="absolute max-sm:px-4 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center md:items-start gap-4 md:-translate-x-0 md:left-24">
         <h1 class="text-3xl md:text-[80px] text-white font-bold text-center md:text-left">{heroSection.title}</h1>
-        <h2 class="text-3xl md:text-[80px] text-primary font-bold text-center md:text-left lg:mt-12">{heroSection.subtitle}</h2>
+        <h2 class="text-3xl md:text-[80px] text-primary hover:opacity-80 font-bold text-center md:text-left lg:mt-12">{heroSection.subtitle}</h2>
         <a href="https://clinic27intake.bookings.pracsuite.com/guest?l=1949&_gl=1*16y1as*_ga*MTUzNzgzNjczOS4xNzM0Njk4NTMw*_ga_J0YJHQLKE6*MTczNzQ2MTIxNy4xOC4wLjE3Mzc0NjEyMTcuNjAuMC4w" target="_blank">
           <button class="meet-our-team-btn mt-3 text-nowrap lg:mt-12">BOOK APPOINTMENT</button>
         </a>
@@ -229,6 +229,9 @@ const deeWhySections = message.Components.map(comp => {
     width: 240px;
     height: 54px;
     background: #ED2278;
+     &:hover {
+            background: #ff3d8f;
+        }
     border-radius: 6000px 11000px 0px 6000px ;
     color: white;
     @media (max-width: 640px) {
