@@ -17,6 +17,16 @@ const approachItems = data.map((page: any) => ({
   slug: page.Slug,
   title: page.Title
 }));
+
+interface Props {
+    title?: string;
+    description?: string;
+}
+
+const { 
+    title = "Complete Chiro Care - Professional Chiropractic Services",
+    description = "Professional chiropractic care services offering personalized treatment plans, pain management, and holistic wellness solutions for optimal health."
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -26,7 +36,25 @@ const approachItems = data.map((page: any) => ({
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>completechirocare</title>
+		
+		<!-- SEO Meta Tags -->
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={Astro.url} />
+		
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		
+		<!-- Additional SEO tags -->
+		<link rel="canonical" href={Astro.url} />
+		<meta name="robots" content="index, follow" />
 	</head>
 	<body>
 		<Nav client:load approachItems={approachItems} />

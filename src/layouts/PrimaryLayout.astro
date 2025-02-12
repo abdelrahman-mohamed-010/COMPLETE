@@ -5,9 +5,16 @@ import InnerFooter from "../components/InnerFooter.astro";
 interface Props {
   currentPath?: string;
   hideBookButton?: boolean;  // Add new prop
+  title?: string;
+  description?: string;
 }
 
-const { currentPath = '', hideBookButton = true } = Astro.props; 
+const { 
+  currentPath = '', 
+  hideBookButton = true,
+  title = "Complete Chiro Care - Professional Chiropractic Services",
+  description = "Professional chiropractic care services offering personalized treatment plans, pain management, and holistic wellness solutions for optimal health."
+} = Astro.props; 
 
 // Fetch approach pages data
 const baseUrl = import.meta.env.STRAPI_URL_TWO;
@@ -37,7 +44,25 @@ const approachItems = data.map((page: any) => ({
 		
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>About - Complete Chiro Care</title>
+		
+		<!-- SEO Meta Tags -->
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={Astro.url} />
+		
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		
+		<!-- Additional SEO tags -->
+		<link rel="canonical" href={Astro.url} />
+		<meta name="robots" content="index, follow" />
 	</head>
 	<body class="">
 		<Nav client:load hideBookButton={hideBookButton} approachItems={approachItems} />
