@@ -10,13 +10,13 @@ const baseUrl = import.meta.env.STRAPI_URL_TWO;
 ---
 
 <section class="bg-[linear-gradient(rgba(240,0,29,0.22)_0%,rgba(217,217,217,0)_100%)]">
-    <div class="max-w-[1860px] mx-auto px-4 xl:px-8 overflow-hidden pb-16">
-      <div class="w-full flex flex-col items-center justify-center gap-1 mt-24">
+    <div class="container mx-auto px-4 md:px-6 lg:px-8 overflow-hidden pb-16">
+      <div class="w-full flex flex-col items-center justify-center gap-1 mt-16 md:mt-24">
         <Title text={teamsData.FirstTitle} className="mb-3 text-nowrap" />  
-        <h1 class="font-bold lg:text-4xl text-2xl md:mb-24 mb-7">{teamsData.MainTitle}</h1>
+        <h1 class="font-bold lg:text-4xl text-2xl md:mb-16 mb-7">{teamsData.MainTitle}</h1>
       </div>
 
-      <div class="grid grid-cols-2 md:grid-cols-3 xl:gap-36 lg:gap-28 gap-6 md:mt-10 mx-auto">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:gap-16 xl:gap-20 gap-6 md:mt-10 mx-auto max-w-7xl">
         <div class="w-full">
           <img src={baseUrl + teamsData.memberOneImg.url} alt={teamsData.memberOneName} class="w-full h-auto lg:rounded-br-[120px] lg:rounded-tl-[120px] rounded-br-[50px] rounded-tl-[50px]" />
           <h3 class="mt-4 font-bold text-center uppercase xl:text-2xl lg:text-xl text-sm max-lg:tracking-wider">{teamsData.memberOneName}</h3>

@@ -40,22 +40,25 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
           }
         );
         const { data } = await response.json();
-        const message = data[0].message.find(component => 
-          component.__component === "message-page.message-page"
+        const message = data[0].message.find(
+          (component) => component.__component === "message-page.message-page"
         );
-        
+
         // Extract nav sections from Components
-        const sections = message.Components.map(comp => {
+        const sections = message.Components.map((comp) => {
           const jsonData = comp.Json.data || comp.Json;
           return {
-            navId: (jsonData.NavTitle || jsonData.Navtitle || "").toLowerCase().trim().replace(/\s+/g, '-'),
+            navId: (jsonData.NavTitle || jsonData.Navtitle || "")
+              .toLowerCase()
+              .trim()
+              .replace(/\s+/g, "-"),
             navTitle: jsonData.NavTitle || jsonData.Navtitle || "",
           };
-        }).filter(section => section.navId && section.navTitle); // Filter out any empty entries
-        
+        }).filter((section) => section.navId && section.navTitle); // Filter out any empty entries
+
         setMassageSections(sections);
       } catch (error) {
-        console.error('Error fetching massage sections:', error);
+        console.error("Error fetching massage sections:", error);
       }
     };
 
@@ -63,8 +66,8 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
   }, []);
 
   // Replace the massage menu items with dynamic sections
-  const renderMassageMenuItems = () => (
-    massageSections.map(section => (
+  const renderMassageMenuItems = () =>
+    massageSections.map((section) => (
       <a
         key={section.navId}
         href={`/massage#${section.navId}`}
@@ -72,15 +75,17 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
       >
         {section.navTitle}
       </a>
-    ))
-  );
+    ));
 
   return (
     <nav className="bg-white relative">
       {/* Top bar - Hide on mobile */}
       <div className="hidden lg:block px-5 rounded-b-lg w-full">
-        <div className="bg-[#F7F7F7] text-[#434343] py-2 rounded-b-2xl flex w-full justify-between">
-          <a href="tel:0299720040" className="text-nowrap flex justify-center items-center pl-4">
+        <div className="bg-[#F7F7F7] text-[#434343] py-2 max-xl:py-1 rounded-b-2xl flex w-full justify-between">
+          <a
+            href="tel:0299720040"
+            className="text-nowrap flex justify-center items-center pl-4"
+          >
             <img
               src="/primaryphone.svg"
               alt="Logo"
@@ -88,10 +93,10 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
             />
             Call us at Dee Why: (02) 9972 0040
           </a>
-          <a 
+          <a
             href="https://www.google.com/maps/place/Complete+Chiropractic+Dee+Why/@-33.752425,151.284896,15z/data=!4m6!3m5!1s0x6b12aa88efcbbf11:0x57dfecc11b276051!8m2!3d-33.752425!4d151.284896!16s%2Fg%2F1thsg1zl?entry=ttu&g_ep=EgoyMDI1MDExNS4wIKXMDSoASAFQAw%3D%3D"
             target="_blank"
-            rel="noopener noreferrer" 
+            rel="noopener noreferrer"
             className="text-nowrap flex justify-center items-center pr-4"
           >
             <img src="/location.svg" alt="Logo" className="h-6.5 mr-3 w-auto" />
@@ -101,24 +106,33 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
       </div>
 
       <div className="max-w-[1860px] mx-auto px-4 xl:px-8">
-        <div className="flex justify-between items-center h-32">
+        <div className="flex justify-between items-center h-32 max-xl:h-20 max-lg:h-32 ">
           {/* Logo */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 ">
             <a href="/">
-              <img src="/logo.png" alt="Logo" className="h-20 w-auto" />
+              <img
+                src="/logo.png"
+                alt="Logo"
+                className="xl:h-20 lg:h-12 h-20 w-auto  "
+              />
             </a>
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden lg:flex items-center flex-wrap justify-center lg:w-[800px] xl:w-auto gap-y-2 gap-x-2 xl:space-x-1">
+          {/* <div className="hidden lg:flex items-center flex-wrap justify-center lg:w-[800px]  xl:w-auto gap-y-2 gap-x-1 xl:space-x-1"> */}
+          <div className="hidden lg:flex items-center text-nowrap justify-center  max-xl:gap-6   xl:w-auto xl:space-x-3 max-xl:px-4">
             {/* About Us */}
             <div className="relative group">
               <a
                 href="/about"
-                className="flex items-center gap-1 px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[17px] xl:text-[22px]"
+                className="flex items-center gap-1 px-1 lg:px-0  xl:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[15px] xl:text-[22px]"
               >
                 About Us
-                <img src="/Plus.svg" alt="Logo" className="h-4 lg:h-5 xl:h-6 mt-0.5 w-auto" />
+                <img
+                  src="/Plus.svg"
+                  alt="Logo"
+                  className="h-4 lg:h-5 xl:h-6 mt-0.5 w-auto"
+                />
               </a>
               <div className="absolute left-0 mt-2 w-[300px] shadow-lg opacity-0 font-medium text-[18px] invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-in-out delay-150 group-hover:delay-[0ms] z-50 bg-white">
                 <a
@@ -135,15 +149,18 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
                 </a>
               </div>
             </div>
-
             {/* Our Approach */}
             <div className="relative group">
               <a
                 href="/approach"
-                className="flex items-center gap-1 px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[17px] xl:text-[22px]"
+                className="flex items-center gap-1 px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[15px] xl:text-[22px]"
               >
                 Our Approach
-                <img src="/Plus.svg" alt="Logo" className="h-4 lg:h-5 xl:h-6 mt-0.5 w-auto" />
+                <img
+                  src="/Plus.svg"
+                  alt="Logo"
+                  className="h-4 lg:h-5 xl:h-6 mt-0.5 w-auto"
+                />
               </a>
               <div className="absolute left-0 mt-2 w-[400px] shadow-lg opacity-0 font-medium text-[18px] invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-in-out delay-150 group-hover:delay-[0ms] z-50 bg-white">
                 {approachItems.map((item) => (
@@ -159,7 +176,7 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
             </div>
             <a
               href="/team"
-              className="px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[17px] xl:text-[22px]"
+              className="px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[15px] xl:text-[22px]"
             >
               Our Team
             </a>
@@ -167,10 +184,14 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
             <div className="relative group">
               <a
                 href="/massage"
-                className="flex items-center gap-1 px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[17px] xl:text-[22px]"
+                className="flex items-center gap-1 px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[15px] xl:text-[22px]"
               >
                 Massage
-                <img src="/Plus.svg" alt="Logo" className="h-4 lg:h-5 xl:h-6 mt-0.5 w-auto" />
+                <img
+                  src="/Plus.svg"
+                  alt="Logo"
+                  className="h-4 lg:h-5 xl:h-6 mt-0.5 w-auto"
+                />
               </a>
               <div className="absolute left-0 mt-2 w-[300px] shadow-lg opacity-0 font-medium text-[18px] invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-in-out delay-150 group-hover:delay-[0ms] z-50 bg-white">
                 {renderMassageMenuItems()}
@@ -178,41 +199,38 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
             </div>
             <a
               href="/media"
-              className="px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[17px] xl:text-[22px]"
+              className="px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[15px] xl:text-[22px]"
             >
               Media
             </a>
             <a
               href="/blog"
-              className="px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[17px] xl:text-[22px]"
+              className="px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[15px] xl:text-[22px]"
             >
               Blog
             </a>
-            <div className="basis-full h-0 xl:hidden"></div>{" "}
-            {/* Force line break except on xl */}
-            <div className="flex justify-center w-full xl:w-auto gap-x-2 xl:gap-x-0">
               <a
                 href="/events"
-                className="px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[17px] xl:text-[22px]"
+                className="px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[15px] xl:text-[22px]"
               >
                 Events
               </a>
               <a
                 href="/contact"
-                className="px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[17px] xl:text-[22px]"
+                className="px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[15px] xl:text-[22px]"
               >
                 Contact
               </a>
-            </div>
           </div>
 
-          {/* Book Button */}
-          <div className={`hidden lg:block ${hideBookButton ? 'invisible' : ''}`}>
-            <button className="bg-darkpurple text-white text-nowrap px-3 lg:px-4 py-2 flex justify-center items-center w-[160px] lg:w-[190px] h-[45px] lg:h-[55px] font-bold text-sm lg:text-base rounded-2xl rounded-bl-none">
+          <div
+            className={`hidden lg:block  ${hideBookButton ? "invisible" : ""}`}
+          >
+            <button className="bg-darkpurple text-white  text-nowrap px-3 lg:px-4 py-2 flex justify-center items-center w-[140px] lg:w-[160px] xl:w-[190px] h-[40px] lg:h-[45px] xl:h-[55px] font-bold text-xs lg:text-sm xl:text-base rounded-2xl rounded-bl-none">
               <img
                 src="/calendar.svg"
                 alt="Logo"
-                className="h-3.5 lg:h-4 mt-0.5 mr-2 w-auto"
+                className="h-3 lg:h-3.5 xl:h-4 mt-0.5 mr-2 w-auto"
               />
               Book for dee why
             </button>
@@ -223,7 +241,7 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
             <a href="tel:0299720040">
               <img src="/primaryphone.svg" alt="Phone" className="h-9 w-auto" />
             </a>
-            <a 
+            <a
               href="https://www.google.com/maps/place/Complete+Chiropractic+Dee+Why/@-33.752425,151.284896,15z/data=!4m6!3m5!1s0x6b12aa88efcbbf11:0x57dfecc11b276051!8m2!3d-33.752425!4d151.284896!16s%2Fg%2F1thsg1zl?entry=ttu&g_ep=EgoyMDI1MDExNS4wIKXMDSoASAFQAw%3D%3D"
               target="_blank"
               rel="noopener noreferrer"
