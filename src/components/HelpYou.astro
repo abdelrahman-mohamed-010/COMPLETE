@@ -2,8 +2,7 @@
 import Title from "./ui/Title.astro";
 const { helpData } = Astro.props;
 const baseUrl = import.meta.env.STRAPI_URL_TWO;
-
-// HelpYou.astro
+const youtubeUrl = "https://youtu.be/0CbxpVtEe1g";
 ---
 
 <div class="relative">
@@ -33,20 +32,24 @@ const baseUrl = import.meta.env.STRAPI_URL_TWO;
 
         <!-- Right Column -->
         <div class="relative w-1/2 max-xl:w-full">
-          <div class="aspect-[4/3] relative">
+          <div class="aspect-[4/3] relative group cursor-pointer" onclick={`window.open('${youtubeUrl}', '_blank')`}>
             <img 
               src={`${baseUrl}${helpData.img.url}`} 
               alt="team" 
-              class="w-full h-full absolute inset-0 object-cover rounded-br-none mb-5 mt-7 rounded-tr-[200px] max-xl:rounded-tr-[130px] rounded-bl-[120px] max-xl:rounded-l-[60px] rounded-[100px]"
+              class="w-full h-[90%] absolute inset-0 object-cover rounded-br-none mb-5 mt-7 rounded-tr-[200px] max-xl:rounded-tr-[130px] rounded-bl-[120px] max-xl:rounded-l-[60px] rounded-[100px] transition-transform duration-300 group-hover:scale-[1.02]"
             />
+            <!-- YouTube Play Button -->
+            <img 
+              src="/yy.png" 
+              alt="Play Video" 
+              class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 transition-transform duration-300 group-hover:scale-110"
+            />
+            <span class="absolute py-2 px-4 max-xl:py-3 bg-primary font-semibold text-lg text-white rounded-xl xl:left-[39%] rounded-bl-none max-sm:text-xs w-auto h-auto bottom-[10px] max-xl:-bottom-0 left-[50%] translate-x-[-50%] text-nowrap">
+              Advanced Biostructural Correction Technique
+            </span>
           </div>
         </div>
       </div>
     </div>
   </section>
-
-  <!-- Label - Adjusted for responsive layout -->
-  <span class="absolute py-2 px-4 max-xl:py-3 bg-primary font-semibold text-lg text-white rounded-xl rounded-bl-none max-sm:text-xs w-auto h-auto bottom-8 max-xl:bottom-16 right-[calc(25%-80px)] max-xl:right-1/2 max-xl:translate-x-1/2 text-nowrap z-50">
-    Advanced Biostructural Correction Technique
-  </span>
 </div>

@@ -22,7 +22,7 @@ const ReactServices = ({ servicesData }) => {
   const getServicePath = (title) => {
     const paths = {
       "Headache": "/approach/headaches",
-      "Back Pain": "/approach/lower-back-pain-relief-chiropractor-sydney",
+      "Upper Back Pain": "/approach/lower-back-pain-relief-chiropractor-sydney",
       "Pregnancy Care": "/approach/pregnancy",
       "Sports Injury": "/approach/sports-chiropractors-sydney",
       "Vertigo": "/approach/vertigo-treatment-sydney-chiropractors-dee-why",
@@ -34,7 +34,8 @@ const ReactServices = ({ servicesData }) => {
     if (!paths[title]) {
       const lowerTitle = title.toLowerCase();
       if (lowerTitle.includes('headache')) return paths["Headache"];
-      if (lowerTitle.includes('back')) return paths["Back Pain"];
+      if (lowerTitle.includes("upper back pain"))
+        return paths["Upper Back Pain"];
       if (lowerTitle.includes('pregnancy')) return paths["Pregnancy Care"];
       if (lowerTitle.includes('sport')) return paths["Sports Injury"];
       if (lowerTitle.includes('vertigo')) return paths["Vertigo"];
