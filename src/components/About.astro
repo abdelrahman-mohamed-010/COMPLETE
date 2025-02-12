@@ -9,7 +9,7 @@ const baseUrl = import.meta.env.STRAPI_URL_TWO;
     <div class="flex flex-col lg:flex-row  lg:gap-12 gap-7">
         <div class="lg:max-w-[50%]">
             <div class="relative max-lg:hidden">
-              <img src={`${baseUrl}${aboutData.img1.url}`} alt="team" class="w-full rounded-br-[87px] mb-5">
+              <img src={`${baseUrl}${aboutData.img1.url}`} alt="team" class="w-full rounded-br-[87px] mb-5" loading="lazy">
               <span class="absolute  py-2 px-4 bg-darkpurple text-white rounded-full rounded-br-none text-sm  w-auto h-auto -top-6 left-12">
                  Northern Beaches Chiropractors
               </span>
@@ -17,9 +17,9 @@ const baseUrl = import.meta.env.STRAPI_URL_TWO;
 
             <div class="max-lg:flex max-lg:justify-center lg:grid lg:grid-cols-3 gap-5 w-full">
                 <div class="lg:col-span-1 flex items-center justify-center">
-                    <img src={`${baseUrl}${aboutData.img2.url}`} alt="badge" class="w-auto h-auto max-w-full max-h-full object-contain max-lg:w-[130px] ">
+                    <img src={`${baseUrl}${aboutData.img2.url}`} alt="badge" class="w-auto h-auto max-w-full max-h-full object-contain max-lg:w-[130px] " loading="lazy">
                 </div>
-                <img src={`${baseUrl}${aboutData.img3.url}`} alt="family" class="max-lg:hidden w-full h-full object-cover lg:col-span-2">
+                <img src={`${baseUrl}${aboutData.img3.url}`} alt="family" class="max-lg:hidden w-full h-full object-cover lg:col-span-2" loading="lazy">
             </div>
         </div>
         <div class="lg:max-w-[50%] max-lg:flex max-lg:flex-col max-lg:items-center max-lg:text-center">
@@ -28,13 +28,13 @@ const baseUrl = import.meta.env.STRAPI_URL_TWO;
             <p class="text-lg mt-4 max-lg:text-center max-xl:text-[18px] text-[#434343]">{aboutData.FirstSentence}</p>
             <p class="text-lg mt-4 max-lg:text-center max-xl:text-[18px] text-[#434343]">{aboutData.SecondSentence}</p>
             <button class="mt-7 flex gap-2 items-center text-primary text-lg  max-lg:justify-center" onclick="location.href='/about'">
-                {aboutData.CTA} <img src="right.svg" alt="right" class=" mt-0.5">
+                {aboutData.CTA} <img src="right.svg" alt="right" class=" mt-0.5" loading="lazy">
             </button>
             <div class="relative lg:hidden">
                 <span class="absolute py-2 px-4 bg-darkpurple text-white rounded-full rounded-br-none text-sm max-sm:text-xs w-auto h-auto bottom-0 left-1/2 -translate-x-1/2">
                  Northern Beaches Chiropractors
                 </span>
-                <img src={`${baseUrl}${aboutData.img1.url}`} alt="team" class="w-full rounded-br-2xl mb-5 xl:hidden mt-7">
+                <img src={`${baseUrl}${aboutData.img1.url}`} alt="team" class="w-full rounded-br-2xl mb-5 xl:hidden mt-7" loading="lazy">
             </div>
         </div>
     </div>

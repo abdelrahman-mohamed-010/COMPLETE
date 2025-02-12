@@ -1,12 +1,18 @@
 ---
-// Hero.astro
 const { heroData } = Astro.props;
 const baseUrl = import.meta.env.STRAPI_URL_TWO;
 ---
 
 <section class="max-w-[1860px] mx-auto xl:px-8">
-  <div class="relative  xl:rounded-2xl xl:rounded-bl-[90px] max-xl:rounded-b-[90px] overflow-hidden">
-    <img src={`${baseUrl}${heroData.background.url}`} alt="heroSection" class="w-full h-full max-md:h-[450px] max-lg:h-[550px] object-cover">
+  <div class="relative xl:rounded-2xl xl:rounded-bl-[90px] max-xl:rounded-b-[90px] overflow-hidden">
+    <!-- <img 
+      src={`${baseUrl}${heroData.background.url}`}
+      alt="heroSection"
+      
+      class="w-full h-full max-md:h-[450px] max-lg:h-[550px] object-cover"
+     
+    /> -->
+    <img src="../../public/manChiro.webp" alt="hero" loading="lazy"  decoding="async" class="w-full h-full max-md:h-[450px] max-lg:h-[550px] object-cover">
     <div class="absolute inset-0 lg:bg-[linear-gradient(270deg,_#FFFFFF00_1%,_#0A0808_100%)] bg-[linear-gradient(270deg,_rgba(10,8,8,0.7)_30%,_#0A0808_100%)]"></div>
     <div class="absolute z-40  top-[260px] max-xl:top-[210px] -translate-y-1/2 lg:left-16 left-1/2 -translate-x-1/2 lg:translate-x-0 text-white">
       <div class="text-center lg:text-left w-screen">

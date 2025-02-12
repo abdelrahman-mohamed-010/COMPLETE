@@ -64,7 +64,7 @@ const message = data[0].message.find((component: { __component: string }) =>
 const heroSection = {
   title: "MASSAGE AT",
   subtitle: "DEE WHY PRACTICE",
-  image: "/dee.png"
+  image: "/deee.webp"
 };
 
 const whyMassageData = message.WhyMessage;
@@ -82,7 +82,7 @@ const deeWhySections = message.Components.map(comp => {
   {/* Hero Section - Keep existing hardcoded section */}
   <section class="relative max-w-[1860px] mx-auto xl:px-8">
     <div class="relative">
-      <img src={heroSection.image} alt="" class="w-full h-[300px] md:h-auto object-cover">
+      <img src={heroSection.image} alt="Massage Hero" loading="eager" decoding="async" class="w-full h-[300px] md:h-auto object-cover">
       <div class="absolute max-sm:px-4 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center md:items-start gap-4 md:-translate-x-0 md:left-24">
         <h1 class="text-3xl md:text-[80px] text-white font-bold text-center md:text-left">{heroSection.title}</h1>
         <h2 class="text-3xl md:text-[80px] text-primary hover:opacity-80 font-bold text-center md:text-left lg:mt-12">{heroSection.subtitle}</h2>
@@ -95,7 +95,7 @@ const deeWhySections = message.Components.map(comp => {
 
   {/* Why Massage Section */}
   <div class="flex flex-col  max-w-[1860px] mx-auto xl:px-8 lg:flex-row-reverse max-sm:px-4 justify-between my-10 md:my-20">
-    <img src="mssage.jpg" alt="" class="hidden lg:block w-[50%] h-[660px] rounded-3xl rounded-tr-[60px]">
+    <img src="mssage.jpg" alt="Massage" loading="lazy" decoding="async" class="hidden lg:block w-[50%] h-[660px] rounded-3xl rounded-tr-[60px]">
     <div class="flex flex-col justify-center items-center lg:items-start w-full lg:w-auto">
       <Title text={whyMassageData.title} />
       <h1 class="text-3xl lg:text-5xl mt-4 font-semibold w-full max-lg:text-center">
@@ -126,7 +126,7 @@ const deeWhySections = message.Components.map(comp => {
   {/* Team Section */}
   <div class="bg-darkpurple py-12 md:py-28 mb-12 max-sm:px-4">
     <div class="relative flex flex-col lg:flex-row justify-between w-full gap-8 md:gap-28 max-w-[1860px] mx-auto px-4 xl:px-8">
-      <img src="/Roberto.jpg" alt="" class="hidden lg:block w-[70%] h-[760px] rounded-3xl rounded-tr-[60px]">
+      <img src="/Roberto.jpg" alt="Team" loading="lazy" decoding="async" class="hidden lg:block w-[70%] h-[760px] rounded-3xl rounded-tr-[60px]">
       <div class="flex flex-col justify-center items-center lg:items-start w-full lg:w-auto">
         <Title text={teamSection.title} />
         <h1 class="text-3xl lg:text-5xl mt-4 font-semibold w-full max-lg:text-center text-white">

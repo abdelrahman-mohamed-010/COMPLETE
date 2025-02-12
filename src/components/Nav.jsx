@@ -131,6 +131,7 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
                 <img
                   src="/Plus.svg"
                   alt="Logo"
+                   loading="lazy"
                   className="h-4 lg:h-5 xl:h-6 mt-0.5 w-auto"
                 />
               </a>
