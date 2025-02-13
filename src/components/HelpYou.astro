@@ -32,17 +32,18 @@ const youtubeUrl = "https://youtu.be/0CbxpVtEe1g";
 
         <!-- Right Column -->
         <div class="relative w-1/2 max-xl:w-full">
-          <div class="aspect-[4/3] relative group cursor-pointer" onclick={`window.open('${youtubeUrl}', '_blank')`}>
+          <div class="aspect-[4/3] relative group cursor-pointer">
             <img 
               src={`${baseUrl}${helpData.img.url}`} 
               alt="team" 
               class="w-full h-[90%] absolute inset-0 object-cover rounded-br-none mb-5 mt-7 rounded-tr-[200px] max-xl:rounded-tr-[130px] rounded-bl-[120px] max-xl:rounded-l-[60px] rounded-[100px] transition-transform duration-300 group-hover:scale-[1.02]"
               loading="lazy"
             />
-            <!-- YouTube Play Button -->
+            <!-- YouTube Play Button with updated onclick -->
             <img 
               src="/yy.png" 
               alt="Play Video" 
+              onclick={`window.open('https://www.youtube.com/watch?v=0CbxpVtEe1g&feature=youtu.be', '_blank')`}
               class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 transition-transform duration-300 group-hover:scale-110"
               loading="lazy"
             />

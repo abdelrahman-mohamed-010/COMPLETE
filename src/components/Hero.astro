@@ -60,9 +60,68 @@ const baseUrl = import.meta.env.STRAPI_URL_TWO;
 
 <!-- Video Modal -->
 <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" style="display:none;">
-  <div class="relative w-full max-w-4xl mx-auto   md:mt-32 mt-12">
-    <button class="absolute top-0 right-0 m-4 text-white text-2xl" onclick="document.getElementById('videoModal').style.display='none'">&times;</button>
-    <iframe width="100%" height="500" src="https://www.youtube.com/embed/0CbxpVtEe1g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <div class="relative w-full max-w-4xl mx-auto md:mt-32 mt-12">
+    <button id="closeModalBtn" class="absolute top-0 right-0 m-4 text-white text-2xl">&times;</button>
+    <div id="videoContainer"></div>
   </div>
 </div>
+
+<script>
+  function closeVideoModal() {
+    const modal = document.getElementById('videoModal');
+    const videoContainer = document.getElementById('videoContainer');
+    
+    if (modal && videoContainer) {
+      modal.style.display = 'none';
+      videoContainer.innerHTML = '';
+    }
+  }
+
+  // Add event listeners when the document is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    const playButton = document.querySelector('.relative.cursor-pointer');
+    const closeButton = document.getElementById('closeModalBtn');
+    
+    if (playButton) {
+      playButton.addEventListener('click', () => {
+        const modal = document.getElementById('videoModal');
+        const videoContainer = document.getElementById('videoContainer');
+        
+        if (modal && videoContainer) {
+          modal.style.display = 'block';
+          videoContainer.innerHTML = `
+            <iframe 
+              width="100%" 
+              height="500" 
+              src="https://www.youtube.com/embed/0CbxpVtEe1g"
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen
+              loading="lazy">
+            </iframe>
+          `;
+        }
+      });
+    }
+
+    if (closeButton) {
+      closeButton.addEventListener('click', closeVideoModal);
+    }
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (event) => {
+      const modal = document.getElementById('videoModal');
+      if (event.target === modal) {
+        closeVideoModal();
+      }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeVideoModal();
+      }
+    });
+  });
+</script>
 
