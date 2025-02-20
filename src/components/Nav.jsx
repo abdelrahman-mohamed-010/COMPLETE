@@ -4,6 +4,7 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openSubMenu, setOpenSubMenu] = useState(null);
   const [massageSections, setMassageSections] = useState([]);
+  const [teamMembers, setTeamMembers] = useState([]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -65,6 +66,61 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
     fetchMassageSections();
   }, []);
 
+  // Add fetch for team members
+  useEffect(() => {
+    const fetchTeamMembers = async () => {
+      try {
+        const response = await fetch(
+          `https://complete.testingweblink.com/api/pages?populate[team][populate]=*`,
+          {
+            headers: {
+              Authorization: `Bearer 9156fdbf34c5c72ea74911b6a1c01136fe2f094ce2a73a05e400899f4790a3b6978c044daa4e8e947cadebfd529dc3a2cfa728fde817cae66ab7083b32961d299beb61a6df6efbd5bae9a8355d0afaa21dd05d34a256e8e6fd5e1007a2a585c7026bed8d68ae377e6fa17e3ea76078f422f3e8af79b27a0a1b39674431d24c40`,
+            },
+          }
+        );
+        const { data } = await response.json();
+        const teamData = data[0].team[0];
+
+        const members = [
+          {
+            slug: teamData.member1Title
+              .toLowerCase()
+              .replace(/^dr\s+/i, "")
+              .replace(/\s+/g, "-"),
+            name: teamData.member1Title,
+          },
+          {
+            slug: teamData.member2Title
+              .toLowerCase()
+              .replace(/^dr\s+/i, "")
+              .replace(/\s+/g, "-"),
+            name: teamData.member2Title,
+          },
+          {
+            slug: teamData.member3Title
+              .toLowerCase()
+              .replace(/^dr\s+/i, "")
+              .replace(/\s+/g, "-"),
+            name: teamData.member3Title,
+          },
+          {
+            slug: teamData.member4Title
+              .toLowerCase()
+              .replace(/^dr\s+/i, "")
+              .replace(/\s+/g, "-"),
+            name: teamData.member4Title,
+          },
+        ];
+
+        setTeamMembers(members);
+      } catch (error) {
+        console.error("Error fetching team members:", error);
+      }
+    };
+
+    fetchTeamMembers();
+  }, []);
+
   // Replace the massage menu items with dynamic sections
   const renderMassageMenuItems = () =>
     massageSections.map((section) => (
@@ -124,14 +180,14 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
             {/* About Us */}
             <div className="relative group">
               <a
-                href="/about"
+                href="/about-us"
                 className="flex items-center gap-1 px-1 lg:px-0  xl:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[15px] xl:text-[22px]"
               >
                 About Us
                 <img
                   src="/Plus.svg"
                   alt="Logo"
-                   loading="lazy"
+                  loading="lazy"
                   className="h-4 lg:h-5 xl:h-6 mt-0.5 w-auto"
                 />
               </a>
@@ -153,7 +209,7 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
             {/* Our Approach */}
             <div className="relative group">
               <a
-                href="/approach"
+                href="/our-approach"
                 className="flex items-center gap-1 px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[15px] xl:text-[22px]"
               >
                 Our Approach
@@ -167,7 +223,7 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
                 {approachItems.map((item) => (
                   <a
                     key={item.slug}
-                    href={`/approach/${item.slug}`}
+                    href={`/our-approach/${item.slug}`}
                     className="block px-4 py-3 text-gray-700 hover:bg-gray-100 border-b border-gray-100"
                   >
                     {item.title}
@@ -175,12 +231,31 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
                 ))}
               </div>
             </div>
-            <a
-              href="/team"
-              className="px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[15px] xl:text-[22px]"
-            >
-              Our Team
-            </a>
+            {/* Our Team - Modified to include dropdown */}
+            <div className="relative group">
+              <a
+                href="/meet-our-team"
+                className="flex items-center gap-1 px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[15px] xl:text-[22px]"
+              >
+                Our Team
+                <img
+                  src="/Plus.svg"
+                  alt="Logo"
+                  className="h-4 lg:h-5 xl:h-6 mt-0.5 w-auto"
+                />
+              </a>
+              <div className="absolute left-0 mt-2 w-[300px] shadow-lg opacity-0 font-medium text-[18px] invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-in-out delay-150 group-hover:delay-[0ms] z-50 bg-white">
+                {teamMembers.map((member) => (
+                  <a
+                    key={member.slug}
+                    href={`/meet-our-team/${member.slug}`}
+                    className="block px-4 py-3 text-gray-700 hover:bg-gray-100 border-b border-gray-100"
+                  >
+                    {member.name}
+                  </a>
+                ))}
+              </div>
+            </div>
             {/* Massage */}
             <div className="relative group">
               <a
@@ -210,18 +285,18 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
             >
               Blog
             </a>
-              <a
-                href="/events"
-                className="px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[15px] xl:text-[22px]"
-              >
-                Events
-              </a>
-              <a
-                href="/contact"
-                className="px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[15px] xl:text-[22px]"
-              >
-                Contact
-              </a>
+            <a
+              href="/events"
+              className="px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[15px] xl:text-[22px]"
+            >
+              Events
+            </a>
+            <a
+              href="/contact-us"
+              className="px-1 lg:px-1.5 py-1 text-gray-700 hover:text-gray-900 text-[15px] lg:text-[15px] xl:text-[22px]"
+            >
+              Contact
+            </a>
           </div>
 
           <div
@@ -303,9 +378,9 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
           </button>
         </div>
 
-        {/* Mobile Menu Items - Added Home as first item */}
+        {/* Mobile Menu Items */}
         <div className="flex flex-col p-4">
-          {/* Home Link - New */}
+          {/* Home Link */}
           <a
             href="/"
             className="text-gray-900 hover:text-gray-700 text-lg py-3 border-b border-gray-200"
@@ -315,7 +390,7 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
 
           {/* About Us */}
           <div className="flex justify-between items-center text-lg py-3 border-b border-gray-200">
-            <a href="/about" className="text-gray-900 hover:text-gray-700">
+            <a href="/about-us" className="text-gray-900 hover:text-gray-700">
               About Us
             </a>
             <button
@@ -337,6 +412,8 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
               </svg>
             </button>
           </div>
+
+          {/* About Us Submenu */}
           <div
             className={`overflow-hidden transition-[max-height] duration-300 ease-in-out ${
               openSubMenu === "about" ? "max-h-[500px]" : "max-h-0"
@@ -360,7 +437,10 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
 
           {/* Our Approach */}
           <div className="flex justify-between items-center text-lg py-3 border-b border-gray-200">
-            <a href="/approach" className="text-gray-900 hover:text-gray-700">
+            <a
+              href="/our-approach"
+              className="text-gray-900 hover:text-gray-700"
+            >
               Our Approach
             </a>
             <button
@@ -391,10 +471,55 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
               {approachItems.map((item) => (
                 <a
                   key={item.slug}
-                  href={`/approach/${item.slug}`}
+                  href={`/our-approach/${item.slug}`}
                   className="text-gray-700 hover:text-primary py-2 border-b border-gray-200 text-base"
                 >
                   {item.title}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Our Team */}
+          <div className="flex justify-between items-center text-lg py-3 border-b border-gray-200">
+            <a
+              href="/meet-our-team"
+              className="text-gray-900 hover:text-gray-700"
+            >
+              Our Team
+            </a>
+            <button
+              onClick={() => toggleSubMenu("team")}
+              className="flex-shrink-0"
+            >
+              <svg
+                className={`w-5 h-5 text-primary transform transition-transform duration-200 ${
+                  openSubMenu === "team" ? "rotate-45" : ""
+                }`}
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path d="M12 4v16m8-8H4"></path>
+              </svg>
+            </button>
+          </div>
+          <div
+            className={`overflow-hidden transition-[max-height] duration-300 ease-in-out ${
+              openSubMenu === "team" ? "max-h-[500px]" : "max-h-0"
+            }`}
+          >
+            <div className="flex flex-col py-1 pl-4">
+              {teamMembers.map((member) => (
+                <a
+                  key={member.slug}
+                  href={`/meet-our-team/${member.slug}`}
+                  className="text-gray-700 hover:text-primary py-2 border-b border-gray-100 text-base"
+                >
+                  {member.name}
                 </a>
               ))}
             </div>
@@ -434,7 +559,7 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
             </div>
           </div>
 
-          {/* Other menu items remain unchanged */}
+          {/* Other menu items */}
           <a
             href="/media"
             className="text-gray-900 hover:text-gray-700 text-lg py-3 border-b border-gray-200"
@@ -454,7 +579,7 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
             Events
           </a>
           <a
-            href="/contact"
+            href="/contact-us"
             className="text-gray-900 hover:text-gray-700 text-lg py-3 border-b border-gray-200"
           >
             Contact

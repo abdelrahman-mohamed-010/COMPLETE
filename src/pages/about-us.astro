@@ -25,17 +25,31 @@ const aboutData = data[0].About.find((component: { __component: string }) => com
                 <div class="space-y-6 text-[#000000] text-sm sm:text-base">
                     {aboutData.description.map((paragraph: any) => (
                         <p>
-                            {paragraph.children.map((child: any) => (
-                                child.underline ? 
-                                <span class="text-primary">{child.text}</span> : 
-                                <span>{child.text}</span>
-                            ))}
+                            {paragraph.children.map((child: any) => {
+                                if(child.type === 'link') {
+                                    const href = child.url.trim();
+                                    const isExternal = href.startsWith('http');
+                                    return (
+                                        <a 
+                                            class="text-[#ED2278]" 
+                                            href={href} 
+                                            {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                                        >
+                                            {child.children.map((sub: any) => (
+                                                <span>{sub.text}</span>
+                                            ))}
+                                        </a>
+                                    );
+                                }
+                                return child.underline ? 
+                                    <span class="text-[#ED2278]">{child.text}</span> : 
+                                    <span>{child.text}</span>;
+                            })}
                         </p>
                     ))}
                 </div>
-                <button onclick="window.location.href='/team'" class="meet-our-team-btn my-14 sm:my-8 sm:px-40 sm:py-10 hover:opacity-80">{aboutData.CTA}</button>
+                 <button onclick="window.location.href='/meet-our-team'" class="meet-our-team-btn my-14 sm:my-8 sm:px-40 sm:py-10 hover:opacity-80">{aboutData.CTA}</button>
                 <img src={`${baseUrl}${aboutData.img.url}`} alt="About Us Banner" loading="lazy" class="w-[80%] mb-12 mt-4 max-sm:-mt-5 sm:w-full">
-            </div>
         </div>
     </main>
 </PrimaryLayout>

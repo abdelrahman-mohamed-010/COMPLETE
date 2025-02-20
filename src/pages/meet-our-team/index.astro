@@ -16,28 +16,40 @@ const teamData = data[0].team[0]; // Using the second component which contains t
 
 const teamMembers = [
     {
-        slug: teamData.member1Title.toLowerCase().replace(/\s+/g, '-'),
+        slug: teamData.member1Title
+                .toLowerCase()
+                .replace(/^dr\s+/i, "")
+                .replace(/\s+/g, '-'),
         name: teamData.member1Title,
         title: teamData.member1Job,
         description: teamData.member1Desc,
         image: `${baseUrl}${teamData.member1Img.url}`
     },
     {
-        slug: teamData.member2Title.toLowerCase().replace(/\s+/g, '-'),
+        slug: teamData.member2Title
+                .toLowerCase()
+                .replace(/^dr\s+/i, "")
+                .replace(/\s+/g, '-'),
         name: teamData.member2Title,
         title: teamData.member2Job,
         description: teamData.member2Desc,
         image: `${baseUrl}${teamData.member2Img.url}`
     },
     {
-        slug: teamData.member3Title.toLowerCase().replace(/\s+/g, '-'),
+        slug: teamData.member3Title
+                .toLowerCase()
+                .replace(/^dr\s+/i, "")
+                .replace(/\s+/g, '-'),
         name: teamData.member3Title,
         title: teamData.member3Job,
         description: teamData.member3Desc,
         image: `${baseUrl}${teamData.member3Img.url}`
     },
     {
-        slug: teamData.member4Title.toLowerCase().replace(/\s+/g, '-'),
+        slug: teamData.member4Title
+                .toLowerCase()
+                .replace(/^dr\s+/i, "")
+                .replace(/\s+/g, '-'),
         name: teamData.member4Title,
         title: teamData.member4Job,
         description: teamData.member4Desc,
@@ -62,7 +74,7 @@ const teamMembers = [
                         {teamMembers[0].description}
                     </p>
                     <div class="max-md:w-full flex max-md:justify-center">
-                        <a href={`/team/${teamMembers[0].slug}`} class="meet-our-team-btn md:md:md:mt-12 mt-3">
+                        <a href={`/meet-our-team/${teamMembers[0].slug}`} class="meet-our-team-btn md:md:md:mt-12 mt-3">
                             {teamData.CTA}
                         </a>
                     </div>
@@ -82,7 +94,7 @@ const teamMembers = [
                             {member.description}
                         </p>
                         <div class="max-md:w-full flex justify-center mt-auto">
-                            <a href={`/team/${member.slug}`} class="meet-our-team-btn mt-3">
+                            <a href={`/meet-our-team/${member.slug}`} class="meet-our-team-btn mt-3">
                                 {teamData.CTA}
                             </a>
                         </div>

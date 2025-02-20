@@ -42,14 +42,14 @@ const Treatments = data[0].Treatments.find((component: { __component: string }) 
             name="firstName"
             placeholder="First name"
             required
-            class="bg-transparent border-b border-gray-600 p-3 text-gray-300 focus:outline-none focus:border-[#FF1493]"
+            class="bg-transparent border-b border-gray-600 p-3 text-gray-600 focus:outline-none focus:border-[#FF1493]"
           />
           <input
             type="text"
             name="lastName"
             placeholder="Last name"
             required
-            class="bg-transparent border-b border-gray-600 p-3 text-gray-300 focus:outline-none focus:border-[#FF1493]"
+            class="bg-transparent border-b border-gray-600 p-3 text-gray-600 focus:outline-none focus:border-[#FF1493]"
           />
         </div>
 
@@ -59,49 +59,31 @@ const Treatments = data[0].Treatments.find((component: { __component: string }) 
             name="email"
             placeholder="Email"
             required
-            class="bg-transparent border-b border-gray-600 p-3 text-gray-300 focus:outline-none focus:border-[#FF1493]"
+            class="bg-transparent border-b border-gray-600 p-3 text-gray-600 focus:outline-none focus:border-[#FF1493]"
           />
           <input
             type="tel"
             name="phone"
             placeholder="Phone"
             required
-            class="bg-transparent border-b border-gray-600 p-3 text-gray-300 focus:outline-none focus:border-[#FF1493]"
+            class="bg-transparent border-b border-gray-600 p-3 text-gray-600 focus:outline-none focus:border-[#FF1493]"
           />
         </div>
 
-        <div class="relative">
-          <button 
-            type="button" 
-            id="dropdown-btn"
-            class="w-full bg-transparent border-b border-gray-600 p-3 text-left text-gray-300 focus:outline-none focus:border-[#FF1493] flex justify-between items-center"
-          >
-            <span id="selected-value" class=" text-gray-700">Type of treatment</span>
-            <svg class="w-6 h-6 mt-1 text-black transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path d="M6 9l6 6 6-6"/>
-            </svg>
-          </button>
-          <div id="dropdown-menu" class="hidden absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg">
-            <div class="py-1">
-              {Treatments.Type && Treatments.Type.map((type: { field: string }) => (
-                <button 
-                  type="button" 
-                  class="w-full px-4 py-2 text-left hover:bg-gray-100 text-gray-700"
-                >
-                  {type.field}
-                </button>
-              ))}
-            </div>
-          </div>
-          <input type="hidden" name="treatment" id="treatment-input">
-        </div>
+        <input
+          type="text"
+          name="treatment"
+          placeholder="Type of treatment"
+          required
+          class="bg-transparent border-b border-gray-600 p-3 text-gray-600 focus:outline-none focus:border-[#FF1493]"
+        />
 
         <textarea
           name="message"
           placeholder="Message of enquiry"
           rows="7"
           required
-          class="bg-transparent border border-gray-600 p-3 text-gray-300 focus:outline-none focus:border-[#FF1493] resize-none"
+          class="bg-transparent border border-gray-600 p-3 text-gray-600 focus:outline-none focus:border-[#FF1493] resize-none"
         ></textarea>
 
         <button
@@ -156,41 +138,6 @@ const Treatments = data[0].Treatments.find((component: { __component: string }) 
 </style>
 
 <script>
-  const dropdownBtn = document.getElementById('dropdown-btn');
-  const dropdownMenu = document.getElementById('dropdown-menu');
-  const selectedValue = document.getElementById('selected-value');
-  const treatmentInput = document.getElementById('treatment-input');
-  const options = dropdownMenu ? dropdownMenu.querySelectorAll('button') : [];
-
-  if (dropdownBtn) {
-    dropdownBtn.addEventListener('click', () => {
-      if (dropdownMenu) {
-        dropdownMenu.classList.toggle('hidden');
-      }
-      dropdownBtn.classList.toggle('active');
-    });
-  }
-
-  options.forEach(option => {
-    option.addEventListener('click', () => {
-      if (selectedValue && treatmentInput && dropdownMenu && dropdownBtn) {
-        selectedValue.textContent = option.textContent;
-        if (option.textContent !== null) {
-          (treatmentInput as HTMLInputElement).value = option.textContent;
-        }
-        dropdownMenu.classList.add('hidden');
-        dropdownBtn.classList.remove('active');
-      }
-    });
-  });
-
-  document.addEventListener('click', (e) => {
-    if (dropdownBtn && dropdownMenu && !dropdownBtn.contains(e.target as Node)) {
-      dropdownMenu.classList.add('hidden');
-      dropdownBtn.classList.remove('active');
-    }
-  });
-
   const form = document.getElementById('inquiryForm') as HTMLFormElement;
   const submitButton = form?.querySelector('button[type="submit"]') as HTMLButtonElement;
   const successMessage = document.getElementById('successMessage');
@@ -232,7 +179,6 @@ const Treatments = data[0].Treatments.find((component: { __component: string }) 
       if (successMessage) successMessage.style.display = 'block';
       if (errorMessage) errorMessage.style.display = 'none';
       form.reset();
-      if (selectedValue) selectedValue.textContent = 'Type of treatment';
     } catch (error) {
       if (errorMessage) errorMessage.style.display = 'block';
       if (successMessage) successMessage.style.display = 'none';

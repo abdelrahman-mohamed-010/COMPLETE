@@ -57,22 +57,46 @@ const nextSlug = null;
                 <ListTag class="list-decimal ml-4 mb-4">
                   {block.children.map((item: any) => (
                     <li class="mb-2">
-                      {item.children.map((child: any) => (
-                        child.bold ? 
-                          <strong>{child.text}</strong> : 
-                          <Fragment set:html={child.text} />
-                      ))}
+                      {item.children.map((child: any) => {
+                        if(child.type === 'link'){
+                          const href = child.url.trim();
+                          const isExternal = href.startsWith('http');
+                          return (
+                            <a 
+                              class="text-[#ED2278]" 
+                              href={href} 
+                              {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                            >
+                              {child.children ? child.children.map((sub: any) => (<span>{sub.text}</span>)) : child.text}
+                            </a>
+                          );
+                        }
+                        return child.bold ? <strong>{child.text}</strong> : <span>{child.text}</span>;
+                      })}
                     </li>
                   ))}
                 </ListTag>
               );
             }
             
-            return block?.children?.[0]?.text && (
+            return block?.children?.length && (
               <p class="mb-4">
-                {block.children[0].bold ? 
-                  <strong>{block.children[0].text}</strong> : 
-                  block.children[0].text}
+                {block.children.map((child: any) => {
+                  if(child.type === 'link'){
+                    const href = child.url.trim();
+                    const isExternal = href.startsWith('http');
+                    return (
+                      <a 
+                        class="text-[#ED2278]" 
+                        href={href} 
+                        {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                      >
+                        {child.children ? child.children.map((sub: any) => (<span>{sub.text}</span>)) : child.text}
+                      </a>
+                    );
+                  }
+                  return child.bold ? <strong>{child.text}</strong> : <span>{child.text}</span>;
+                })}
               </p>
             );
           })}

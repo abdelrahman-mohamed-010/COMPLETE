@@ -1,8 +1,10 @@
 import { useState } from "react";
 
 const ReactServices = ({ servicesData }) => {
-  const [IsActive, SetIsActive] = useState(servicesData?.section[0]?.Title || "");
-  
+  const [IsActive, SetIsActive] = useState(
+    servicesData?.section[0]?.Title || ""
+  );
+
   const baseUrl = import.meta.env.STRAPI_URL_TWO;
   const fallbackImages = [
     "/backpain.jpg",
@@ -11,7 +13,7 @@ const ReactServices = ({ servicesData }) => {
     "/backpain.jpg",
     "/vertigo.jpg",
     "/arthritis.jpg",
-    "/migraines.jpg"
+    "/migraines.jpg",
   ];
 
   const getImageUrl = (img, index) => {
@@ -21,26 +23,27 @@ const ReactServices = ({ servicesData }) => {
 
   const getServicePath = (title) => {
     const paths = {
-      "Headache": "/approach/headaches",
-      "Upper Back Pain": "/approach/lower-back-pain-relief-chiropractor-sydney",
-      "Pregnancy Care": "/approach/pregnancy",
-      "Sports Injury": "/approach/sports-chiropractors-sydney",
-      "Vertigo": "/approach/vertigo-treatment-sydney-chiropractors-dee-why",
-      "Arthritis": "/approach/arthritis-treatment-sydney",
-      "Migraine": "/approach/migraine-treatment-sydney"
+      Headache: "/our-approach/headache-chiropractor-sydney",
+      "Upper Back Pain":
+        "/our-approach/lower-back-pain-relief-chiropractor-sydney",
+      "Pregnancy Care": "/our-approach/pregnancy",
+      "Sports Injury": "/our-approach/sports-injuries-chiropractors-sydney",
+      Vertigo: "/our-approach/vertigo-treatment-sydney",
+      Arthritis: "/our-approach/arthritis-treatment-sydney",
+      Migraine: "/our-approach/migraine-treatment-sydney",
     };
 
     // Handle partial matches if exact match not found
     if (!paths[title]) {
       const lowerTitle = title.toLowerCase();
-      if (lowerTitle.includes('headache')) return paths["Headache"];
+      if (lowerTitle.includes("headache")) return paths["Headache"];
       if (lowerTitle.includes("upper back pain"))
         return paths["Upper Back Pain"];
-      if (lowerTitle.includes('pregnancy')) return paths["Pregnancy Care"];
-      if (lowerTitle.includes('sport')) return paths["Sports Injury"];
-      if (lowerTitle.includes('vertigo')) return paths["Vertigo"];
-      if (lowerTitle.includes('arthritis')) return paths["Arthritis"];
-      if (lowerTitle.includes('migraine')) return paths["Migraine"];
+      if (lowerTitle.includes("pregnancy")) return paths["Pregnancy Care"];
+      if (lowerTitle.includes("sport")) return paths["Sports Injury"];
+      if (lowerTitle.includes("vertigo")) return paths["Vertigo"];
+      if (lowerTitle.includes("arthritis")) return paths["Arthritis"];
+      if (lowerTitle.includes("migraine")) return paths["Migraine"];
     }
 
     return paths[title] || "/";
@@ -85,17 +88,21 @@ const ReactServices = ({ servicesData }) => {
               <h1 className="font-semibold text-[30px] mt-3 max-lg:text-center max-xl:text-2xl">
                 {service.Title}
               </h1>
-              {service.description.map((desc, i) => (
-                desc.children[0].text && (
-                  <p key={i} className="text-xl text-[#434343] mt-6 max-lg:text-center max-xl:text-[17px]">
-                    {desc.children[0].text}
-                  </p>
-                )
-              ))}
+              {service.description.map(
+                (desc, i) =>
+                  desc.children[0].text && (
+                    <p
+                      key={i}
+                      className="text-xl text-[#434343] mt-6 max-lg:text-center max-xl:text-[17px]"
+                    >
+                      {desc.children[0].text}
+                    </p>
+                  )
+              )}
             </div>
           </div>
         ))}
-        
+
         {/* Mobile view */}
         <div className="grid grid-cols-2 items-center justify-center md:hidden">
           {servicesData?.section?.map((service, index) => (
@@ -124,7 +131,9 @@ const ReactServices = ({ servicesData }) => {
               <img
                 src={getImageUrl(
                   activeService.image?.data?.attributes?.url,
-                  servicesData.section.findIndex(s => s.Title === activeService.Title)
+                  servicesData.section.findIndex(
+                    (s) => s.Title === activeService.Title
+                  )
                 )}
                 alt={activeService.Title}
                 className="w-full h-full object-cover rounded-tl-[120px] rounded-br-[120px]"
@@ -140,13 +149,17 @@ const ReactServices = ({ servicesData }) => {
               <h1 className="font-semibold text-[30px]  mt-3 max-lg:text-center max-xl:text-2xl">
                 {activeService.Title}
               </h1>
-              {activeService.description.map((desc, i) => (
-                desc.children[0].text && (
-                  <p key={i} className="text-xl text-[#434343] mt-6 max-lg:text-center max-xl:text-[17px]">
-                    {desc.children[0].text}
-                  </p>
-                )
-              ))}
+              {activeService.description.map(
+                (desc, i) =>
+                  desc.children[0].text && (
+                    <p
+                      key={i}
+                      className="text-xl text-[#434343] mt-6 max-lg:text-center max-xl:text-[17px]"
+                    >
+                      {desc.children[0].text}
+                    </p>
+                  )
+              )}
             </div>
           </div>
         )}
