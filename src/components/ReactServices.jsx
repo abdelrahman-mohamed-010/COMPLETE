@@ -5,6 +5,11 @@ const ReactServices = ({ servicesData }) => {
     servicesData?.section[0]?.Title || ""
   );
 
+  let hasReplacedBackPain = false;
+  let hasReplacedPregnancy = false;
+  let hasReplacedHeadache = false;
+  let hasReplacedMigraine = false;
+
   const baseUrl = import.meta.env.STRAPI_URL_TWO;
   const fallbackImages = [
     "/backpain.jpg",
@@ -26,7 +31,7 @@ const ReactServices = ({ servicesData }) => {
       Headache: "/our-approach/headache-chiropractor-sydney",
       "Upper Back Pain":
         "/our-approach/lower-back-pain-relief-chiropractor-sydney",
-      "Pregnancy Care": "/our-approach/pregnancy",
+      "Pregnancy Care": "/blog/pregnancy-back-pain-chiropractor-sydney",
       "Sports Injury": "/our-approach/sports-injuries-chiropractors-sydney",
       Vertigo: "/our-approach/vertigo-treatment-sydney",
       Arthritis: "/our-approach/arthritis-treatment-sydney",
@@ -47,6 +52,53 @@ const ReactServices = ({ servicesData }) => {
     }
 
     return paths[title] || "/";
+  };
+
+  const wrapTextWithLink = (text) => {
+    const backPainRegex = /\b(back pain)\b/i;
+    const pregnancyRegex = /\b(Pregnancy chiropractic treatment)\b/;
+    const headacheRegex = /\b(nearly 5 million people throughout Australia)\b/;
+    const migraineRegex = /\b(migraines)\b/;
+
+    let processedText = text;
+
+    if (backPainRegex.test(processedText) && !hasReplacedBackPain) {
+      hasReplacedBackPain = true;
+      processedText = processedText.replace(
+        backPainRegex,
+        (match) =>
+          `<a href="/our-approach/lower-back-pain-relief-chiropractor-sydney" class="text-primary hover:underline">${match}</a>`
+      );
+    }
+
+    if (pregnancyRegex.test(processedText) && !hasReplacedPregnancy) {
+      hasReplacedPregnancy = true;
+      processedText = processedText.replace(
+        pregnancyRegex,
+        (match) =>
+          `<a href="/blog/pregnancy-back-pain-chiropractor-sydney/" class="text-primary hover:underline">${match}</a>`
+      );
+    }
+
+    if (headacheRegex.test(processedText) && !hasReplacedHeadache) {
+      hasReplacedHeadache = true;
+      processedText = processedText.replace(
+        headacheRegex,
+        (match) =>
+          `<a href="/our-approach/headache-chiropractor-sydney" class="text-primary hover:underline">${match}</a>`
+      );
+    }
+
+    if (migraineRegex.test(processedText) && !hasReplacedMigraine) {
+      hasReplacedMigraine = true;
+      processedText = processedText.replace(
+        migraineRegex,
+        (match) =>
+          `<a href="/our-approach/migraine-treatment-sydney" class="text-primary hover:underline">${match}</a>`
+      );
+    }
+
+    return processedText;
   };
 
   const activeService = servicesData?.section?.find(
@@ -94,9 +146,10 @@ const ReactServices = ({ servicesData }) => {
                     <p
                       key={i}
                       className="text-xl text-[#434343] mt-6 max-lg:text-center max-xl:text-[17px]"
-                    >
-                      {desc.children[0].text}
-                    </p>
+                      dangerouslySetInnerHTML={{
+                        __html: wrapTextWithLink(desc.children[0].text),
+                      }}
+                    />
                   )
               )}
             </div>
@@ -155,9 +208,10 @@ const ReactServices = ({ servicesData }) => {
                     <p
                       key={i}
                       className="text-xl text-[#434343] mt-6 max-lg:text-center max-xl:text-[17px]"
-                    >
-                      {desc.children[0].text}
-                    </p>
+                      dangerouslySetInnerHTML={{
+                        __html: wrapTextWithLink(desc.children[0].text),
+                      }}
+                    />
                   )
               )}
             </div>

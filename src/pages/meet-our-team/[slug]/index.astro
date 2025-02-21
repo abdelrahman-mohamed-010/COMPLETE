@@ -45,6 +45,11 @@ const teamMembers = [
 
 const member = teamMembers.find((m) => m.slug === slug);
 const hasMember = !!member;
+
+// Special case for Hooman Zahedi
+if (member && member.slug === "hooman-zahedi") {
+  member.description = `Hooman is passionate about helping you live a healthy life so you can achieve your goals and realise your dreams.<br/><br/>One of the things Hooman most enjoys about being a chiropractor is connecting with people like you. He gets a buzz every time one of his patients tells him he has helped them.<br/><br/>Hooman relieves your pain and stiffness, enabling you to live your life to the full—whether that means getting back to regular exercise or playing with your grandchildren.<br/><br/>He also improves the way your nervous system functions, helping you to better deal with the stresses and strains of modern living. He teaches you about the best posture for your body and encourages you to live a more active life.<br/><br/>After qualifying as a chiropractor at Macquarie University, Hooman decided to explore the world so he travelled to the UK. Along with a few other chiropractors, he pioneered chiropractic treatment in Scotland and went on to become the Director of Chiropractic Care and a partner in Europe's largest chiropractic group, comprising 21 practices.<br/><br/>When he returned to Australia he became a Founding Board member of Advanced Biostructural Correction Australasia, a unique chiropractic technique.<br/><br/>In his spare time, Hooman plays basketball and participates in adult gymnastics.`;
+}
 ---
 <PrimaryLayout>
   { !hasMember ? (
@@ -73,8 +78,7 @@ const hasMember = !!member;
             <h1 class="text-4xl font-bold mb-2">{member.name}</h1>
             <p class="text-xl text-gray-600 mb-6">{member.title}</p>
             <div class="prose max-w-2xl mx-auto">
-              <p class="text-gray-700 leading-relaxed">
-                  {member.description}
+              <p class="text-gray-700 leading-relaxed whitespace-pre-line" set:html={member.description}>
               </p>
             </div>
           </div>

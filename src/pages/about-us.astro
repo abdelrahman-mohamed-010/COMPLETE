@@ -26,7 +26,7 @@ const aboutData = data[0].About.find((component: { __component: string }) => com
                     {aboutData.description.map((paragraph: any) => (
                         <p>
                             {paragraph.children.map((child: any) => {
-                                if(child.type === 'link') {
+                                if(child.type === 'link'){
                                     const href = child.url.trim();
                                     const isExternal = href.startsWith('http');
                                     return (
@@ -35,15 +35,11 @@ const aboutData = data[0].About.find((component: { __component: string }) => com
                                             href={href} 
                                             {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                                         >
-                                            {child.children.map((sub: any) => (
-                                                <span>{sub.text}</span>
-                                            ))}
+                                            {child.children ? child.children.map((sub: any) => (<span>{sub.text}</span>)) : child.text}
                                         </a>
                                     );
                                 }
-                                return child.underline ? 
-                                    <span class="text-[#ED2278]">{child.text}</span> : 
-                                    <span>{child.text}</span>;
+                                return child.bold ? <strong>{child.text}</strong> : <span>{child.text}</span>;
                             })}
                         </p>
                     ))}

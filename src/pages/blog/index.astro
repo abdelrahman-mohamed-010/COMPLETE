@@ -5,13 +5,22 @@ import PrimaryLayout from "../../layouts/PrimaryLayout.astro";
 const baseUrl = import.meta.env.STRAPI_URL_TWO;
 const token = import.meta.env.ASTRO_APP_API_TOKEN_TWO;
 
-const response = await fetch(`${baseUrl}/api/posts?populate=*`, {
+// Updated to get all posts with pagination
+const response = await fetch(`${baseUrl}/api/posts?populate=*&pagination[pageSize]=100`, {
   headers: {
     'Authorization': `Bearer ${token}`
   }
 });
 
-const { data } = await response.json();
+const result = await response.json();
+console.log('API Response:', result); // Debug log
+
+if (!result.data) {
+  console.error('Invalid API response:', result);
+  throw new Error('Invalid API response');
+}
+
+const { data } = result;
 
 const blogPosts = data.map((post: any) => ({
   title: post.Title,
@@ -19,6 +28,9 @@ const blogPosts = data.map((post: any) => ({
   excerpt: post.Content[0]?.children?.[0]?.text?.slice(0, 150) + '...' || 'No excerpt available',
   slug: post.Slug
 }));
+
+// Debug log
+console.log(`Total posts fetched: ${blogPosts.length}`);
 ---
 
 <PrimaryLayout>

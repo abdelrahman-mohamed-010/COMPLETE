@@ -103,13 +103,6 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
               .replace(/\s+/g, "-"),
             name: teamData.member3Title,
           },
-          {
-            slug: teamData.member4Title
-              .toLowerCase()
-              .replace(/^dr\s+/i, "")
-              .replace(/\s+/g, "-"),
-            name: teamData.member4Title,
-          },
         ];
 
         setTeamMembers(members);
@@ -224,7 +217,7 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
                   <a
                     key={item.slug}
                     href={`/our-approach/${item.slug}`}
-                    className="block px-4 py-3 text-gray-700 hover:bg-gray-100 border-b border-gray-100"
+                    className="block px-4 py-3 capitalize text-gray-700 hover:bg-gray-100 border-b border-gray-100"
                   >
                     {item.title}
                   </a>
