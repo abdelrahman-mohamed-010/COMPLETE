@@ -3,32 +3,62 @@ export const prerender = true;
 import Sidebar from "../../components/Sidebar";
 import PrimaryLayout from "../../layouts/PrimaryLayout.astro";
 
+const PLACEHOLDER_IMAGE = 'https://placehold.co/600x400?text=TechiroCare';
+
 export async function getStaticPaths() {
   const baseUrl = import.meta.env.STRAPI_URL_TWO;
   const token = import.meta.env.ASTRO_APP_API_TOKEN_TWO;
 
-  const response = await fetch(`${baseUrl}/api/posts?populate=*`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
+  try {
+    const response = await fetch(`${baseUrl}/api/posts?populate=*&pagination[pageSize]=100`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`API response error: ${response.status}`);
     }
-  });
 
-  const { data } = await response.json();
-  console.log('Static Paths Data:', data);
+    const result = await response.json();
+    console.log('Static Paths Response:', result); // Debug log
 
-  if (!data || !Array.isArray(data)) {
-    throw new Error('Invalid data format received from API');
+    if (!result.data || !Array.isArray(result.data)) {
+      throw new Error('Invalid data format received from API');
+    }
+
+    console.log(`Total posts for static paths: ${result.data.length}`); // Debug log
+
+    return result.data.map((post: any) => {
+      console.log(`Processing post: ${post.Slug}`); // Debug individual posts
+      return {
+        params: { slug: post.Slug },
+        props: { 
+          title: post.Title,
+          content: post.Content,
+          image: post.FeaturedImg?.url ? `${baseUrl}${post.FeaturedImg.url}` : null,
+          date: post.createdAt || new Date().toISOString()
+        }
+      };
+    });
+  } catch (error) {
+    console.error('Error in getStaticPaths:', error);
+    throw error;
   }
+}
 
-  return data.map((post: any) => ({
-    params: { slug: post.Slug },
-    props: { 
-      title: post.Title,
-      content: post.Content,
-      image: post.FeaturedImg ? `${baseUrl}${post.FeaturedImg.url}` : '/default-image.jpg',
-      date: post.createdAt || new Date().toISOString()
-    }
-  }));
+interface ContentChild {
+  type?: string;
+  text?: string;
+  bold?: boolean;
+  url?: string;
+  children?: ContentChild[];
+}
+
+interface ContentBlock {
+  type: string;
+  format?: 'ordered' | 'unordered';
+  children: ContentChild[];
 }
 
 const { title, content, image, date } = Astro.props;
@@ -37,6 +67,8 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
   month: 'long',
   day: 'numeric'
 });
+
+const typedContent = content as ContentBlock[];
 
 const prevSlug = null;
 const nextSlug = null;
@@ -48,18 +80,27 @@ const nextSlug = null;
       <div class="w-full md:w-3/4">
         <h1 class="text-3xl md:text-5xl capitalize font-medium mb-6 md:mb-8">{title}</h1>
         <p class="text-gray-600 mb-4">{formattedDate}</p>
-        <img src={image} alt={title} class="w-full mb-6 md:mb-8" />
+        {image && (
+          <img 
+            src={image} 
+            alt={title} 
+            class="w-full mb-6 md:mb-8"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+            }}
+          />
+        )}
         <div class="prose prose-sm md:prose max-w-none">
-          {content && Array.isArray(content) && content.map((block: any) => {
+          {typedContent && Array.isArray(typedContent) && typedContent.map((block: ContentBlock) => {
             if (block.type === 'list') {
               const ListTag = block.format === 'ordered' ? 'ol' : 'ul';
               return (
                 <ListTag class="list-decimal ml-4 mb-4">
-                  {block.children.map((item: any) => (
+                  {block.children.map((item: ContentChild) => (
                     <li class="mb-2">
-                      {item.children.map((child: any) => {
+                      {item.children?.map((child: ContentChild) => {
                         if(child.type === 'link'){
-                          const href = child.url.trim();
+                          const href = child.url?.trim() || '';
                           const isExternal = href.startsWith('http');
                           return (
                             <a 
@@ -67,7 +108,7 @@ const nextSlug = null;
                               href={href} 
                               {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                             >
-                              {child.children ? child.children.map((sub: any) => (<span>{sub.text}</span>)) : child.text}
+                              {child.children ? child.children.map((sub: ContentChild) => (<span>{sub.text}</span>)) : child.text}
                             </a>
                           );
                         }
@@ -81,9 +122,9 @@ const nextSlug = null;
             
             return block?.children?.length && (
               <p class="mb-4">
-                {block.children.map((child: any) => {
+                {block.children.map((child: ContentChild) => {
                   if(child.type === 'link'){
-                    const href = child.url.trim();
+                    const href = child.url?.trim() || '';
                     const isExternal = href.startsWith('http');
                     return (
                       <a 
@@ -91,7 +132,7 @@ const nextSlug = null;
                         href={href} 
                         {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                       >
-                        {child.children ? child.children.map((sub: any) => (<span>{sub.text}</span>)) : child.text}
+                        {child.children ? child.children.map((sub: ContentChild) => (<span>{sub.text}</span>)) : child.text}
                       </a>
                     );
                   }
@@ -102,6 +143,14 @@ const nextSlug = null;
           })}
         </div>
         
+        <!-- Homepage Link -->
+        <div class="mt-8 pb-4 border-b border-gray-200">
+          <p class="text-gray-600">
+            To learn more about our services, visit our 
+            <a href="/" class="text-[#ED2278] hover:underline">homepage</a>.
+          </p>
+        </div>
+
         <!-- Navigation Buttons -->
          <div class="flex flex-col sm:flex-row justify-between gap-4 mt-8 md:mt-12 w-full">
           {prevSlug && (

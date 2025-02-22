@@ -22,9 +22,11 @@ if (!result.data) {
 
 const { data } = result;
 
+const PLACEHOLDER_IMAGE = 'https://placehold.co/600x400?text=TechiroCare';
+
 const blogPosts = data.map((post: any) => ({
   title: post.Title,
-  image: post.FeaturedImg ? `${baseUrl}${post.FeaturedImg.url}` : '/default-image.jpg',
+  image: post.FeaturedImg?.url ? `${baseUrl}${post.FeaturedImg.url}` : PLACEHOLDER_IMAGE,
   excerpt: post.Content[0]?.children?.[0]?.text?.slice(0, 150) + '...' || 'No excerpt available',
   slug: post.Slug
 }));
