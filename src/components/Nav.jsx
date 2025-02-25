@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const Nav = ({ hideBookButton = false, approachItems = [] }) => {
+const Nav = ({ approachItems = [] }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openSubMenu, setOpenSubMenu] = useState(null);
   const [massageSections, setMassageSections] = useState([]);
@@ -125,6 +125,14 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
         {section.navTitle}
       </a>
     ));
+
+  // Add booking handler function
+  const handleBooking = () => {
+    window.open(
+      "https://clinic27intake.bookings.pracsuite.com/guest?l=1949&_gl=1*16y1as*_ga*MTUzNzgzNjczOS4xNzM0Njk4NTMw*_ga_J0YJHQLKE6*MTczNzQ2MTExNy4xOC4wLjE3Mzc0NjEyMTcuNjAuMC4w",
+      "_blank"
+    );
+  };
 
   return (
     <nav className="bg-white relative">
@@ -292,10 +300,12 @@ const Nav = ({ hideBookButton = false, approachItems = [] }) => {
             </a>
           </div>
 
-          <div
-            className={`hidden lg:block  ${hideBookButton ? "invisible" : ""}`}
-          >
-            <button className="bg-darkpurple text-white  text-nowrap px-3 lg:px-4 py-2 flex justify-center items-center w-[140px] lg:w-[160px] xl:w-[190px] h-[40px] lg:h-[45px] xl:h-[55px] font-bold text-xs lg:text-sm xl:text-base rounded-2xl rounded-bl-none">
+          {/* Book button - Updated onClick handler */}
+          <div className="hidden lg:block">
+            <button
+              className="bg-darkpurple text-white  text-nowrap px-3 lg:px-4 py-2 flex justify-center items-center w-[140px] lg:w-[160px] xl:w-[190px] h-[40px] lg:h-[45px] xl:h-[55px] font-bold text-xs lg:text-sm xl:text-base rounded-2xl rounded-bl-none"
+              onClick={handleBooking}
+            >
               <img
                 src="/calendar.svg"
                 alt="Logo"
