@@ -34,14 +34,14 @@ const typedContent = Event.content as ContentBlock[];
 <PrimaryLayout>
   <main>
     <CallToAction />
-    <div class="max-w-[1160px] mx-auto my-20 xl:px-8 px-4 lg:w-full sm:w-full flex flex-col prose prose-sm md:prose max-w-none">
+    <div class="max-w-[1160px] mx-auto my-10 xl:px-8 px-4 lg:w-full sm:w-full flex flex-col prose prose-sm md:prose max-w-none [&>*]:my-2">
       {typedContent && Array.isArray(typedContent) && typedContent.map((block: ContentBlock) => {
         if (block.type === 'list') {
           const ListTag = block.format === 'ordered' ? 'ol' : 'ul';
           return (
-            <ListTag class="list-decimal ml-4 mb-4">
+            <ListTag class="list-decimal ml-4 mb-2 [&>li]:my-1">
               {block.children.map((item: ContentChild) => (
-                <li class="mb-2">
+                <li class="mb-0">
                   {item.children?.map((child: ContentChild) => {
                     if(child.type === 'link'){
                       const href = child.url?.trim() || '';
@@ -65,7 +65,7 @@ const typedContent = Event.content as ContentBlock[];
         }
         
         return block?.children?.length && (
-          <p class="mb-4">
+          <p class="mb-0">
             {block.children.map((child: ContentChild) => {
               if(child.type === 'link'){
                 const href = child.url?.trim() || '';
